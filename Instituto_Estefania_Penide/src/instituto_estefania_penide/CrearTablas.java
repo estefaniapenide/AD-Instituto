@@ -21,7 +21,7 @@ public class CrearTablas {
             sentencia.execute("USE BDINSTITUTO;");
             //sentencia.execute("DROP TABLE IF EXISTS PROFESORES");
             sentencia.execute("CREATE TABLE IF NOT EXISTS PROFESORES"
-                    + "(dni VARCHAR(10) NOT NULL,"//controlar que el dni sea correcto (trigers en la base de datos?/control cuando se pide por teclado??)
+                    + "(dni CHAR(10) NOT NULL,"//controlar que el dni sea correcto (trigers en la base de datos?/control cuando se pide por teclado??)
                     + "nombre VARCHAR(30) NOT NULL,"
                     + "titulacion VARCHAR(30) NOT NULL,"
                     + "PRIMARY KEY (dni))"
@@ -67,65 +67,122 @@ public class CrearTablas {
         }
     }
 
-    public static void restriccionesTablas(Statement sentencia) {
+    public static void restriccionesDNI(Statement sentencia) {
 
         try {
+            sentencia.execute("SET GLOBAL log_bin_trust_function_creators = 1;");
             sentencia.execute("DROP FUNCTION IF EXISTS validadni");
             sentencia.execute("CREATE FUNCTION validadni(dni CHAR(10))\n"
                     + "RETURNS BOOLEAN\n"
                     + "BEGIN\n"
-                    + "DECLARE letrasValidas CHAR(23);\n"
-                    + "DECLARE letraInput CHAR;\n"
-                    + "DECLARE numero INT;\n"
-                    + "DECLARE longitud INT;\n"
-                    + "DECLARE letraCorrecta CHAR;\n"
-                    + "	IF dni=NULL THEN RETURN FALSE;\n"
+                    + " DECLARE letrasValidas CHAR(23);\n"
+                    + " DECLARE letraInput CHAR;\n"
+                    + " DECLARE numero INT;\n"
+                    + " DECLARE longitud INT;\n"
+                    + " DECLARE letraCorrecta CHAR;\n"
+//                    + " DECLARE mensaje CHAR;\n"
+//                    + " DECLARE tipo_incorrecto CONDITION FOR SQLSTATE '22P02';\n"
+//                    + " DECLARE EXIT HANDLER FOR tipo_incorrecto\n"
+//                    + "     BEGIN\n"
+//                    + "         SELECT 'Tipo incorrecto' INTO mensaje;\n"
+//                    + "     END;"
+//                    + " DECLARE mensaje CHAR;\n"
+//                    + " DECLARE CONTINUE HANDLER FOR SQLSTATE '22P02'\n"
+//                    + "     BEGIN\n"
+//                    + "          SELECT 'Tipo incorrecto' INTO mensaje;\n"
+//                    + "         rollback;\n"
+//                    + "     END;\n"
+                    + "	IF dni = NULL THEN RETURN FALSE;\n"
                     + " END IF;\n"
                     + " SET letrasValidas := 'TRWAGMYFPDXBNJZSQVHLCKE';"
                     + "	SET longitud := length(dni);\n"
-                    + "	IF longitud<9 OR longitud>10 THEN\n"
+                    + "	IF longitud<9 OR longitud>9 THEN\n"
                     + "     SIGNAL SQLSTATE '45000'\n"
-                    + "         SET MESSAGE_TEXT = 'EL DNI debe constar de 8 números y una letra';\n"
+                    + "         SET MESSAGE_TEXT = 'No es posible añadir al profesor. EL DNI debe constar de 8 números seguidos de una letra.';\n"
                     + "     RETURN FALSE;\n"
                     + "	END IF;\n"
-                    + "	SET letraInput := SUBSTR(dni, length(dni), 1); -- Extraemos el último caracter\n"  
-                    + "	SET numero := CAST((SUBSTR(dni, 1, 8)) AS INTEGER); -- Casteo a INT. Si no son números, lanza una excepciÓn '22P02'\n"
-                    + "    /* Se separa primero el último caracter (letra) y los primeros 8 (números). \n"
-                    + "	 * Si está con algún separador (caracter 9 cuando longitud 10), lo ignora  */\n"
-                    + "	letraCorrecta := SUBSTR(letrasValidas, MOD(numero, 23)+1, 1);\n"
-                    + "	IF (letraCorrecta = letraInput) THEN RETURN true;\n"
-                    + "		ELSE\n"
-                    + "             SIGNAL SQLSTATE '45000'\n"
-                    + "                 SET MESSAGE_TEXT = 'La letra de control del DNI no es correcta';\n"
-                    + "             RETURN false;\n"
+                    + "	SET letraInput := SUBSTR(dni, length(dni), 1); -- Extraemos el último caracter\n"
+                    + "	SET numero := CONVERT(SUBSTR(dni, 1, 8), SIGNED INT); -- Casteo a INT."
+                    + "	SET letraCorrecta := SUBSTR(letrasValidas, MOD(numero, 23)+1, 1);\n"
+                    + " IF NOT (letraCorrecta = letraInput) THEN\n"
+                    + "     SIGNAL SQLSTATE '45000'\n"
+                    + "         SET MESSAGE_TEXT = 'No es posible añadir al profesor. La letra de control del DNI no es correcta.';\n"
+                    + "     RETURN FALSE;\n"
                     + "	END IF;\n"
-                    + "	-- Captura de la excepción si falla el casteo y devolución de false\n"
-                    + "	EXCEPTION WHEN sqlstate '22P02' THEN -- Para gestionar si el casteo no se lleva a cabo\n"
-                    + "        RAISE WARNING 'El dni debe empezar por 8 caracteres numéricos';\n"
-                    + "        RETURN false;\n"
+                    + " RETURN TRUE;"
+                    //+ " SIGNAL sqlstate '22P02';"//Comprobar si esto funciona
+                    + "	-- Captura de la excepción si falla el casteo y devolución de false\n"//Pendiente
                     + "END;");
 
-            sentencia.execute("create or replace function fdnicorrecto() returns trigger as $$\n"
-                    + "begin\n"
-                    + "	if not validadni(new.dni) then \n"
-                    + "		raise exception 'El dni % no es válido',new.nombre;\n"
-                    + "	end if;\n"
-                    + "	perform 1 from PROFESORES where dni=new.dni;\n"
-                    + "		if found then \n"
-                    + "			raise exception 'El dni que intenta introducir ya existe en la tabla';\n"
-                    + "		end if;	\n"
-                    + "	return new;\n"
-                    + "end;\n"
-                    + "$$\n"
-                    + "language 'plpgsql';");
-            sentencia.execute("create trigger dnicorrecto\n"
-                    + "BEFORE INSERT OR UPDATE ON PROFESORES\n"
-                    + "FOR EACH ROW EXECUTE PROCEDURE fdnicorrecto();");
+            sentencia.execute("DROP TRIGGER IF EXISTS dnicorrectoInsert");
+            sentencia.execute("CREATE TRIGGER dnicorrectoInsert\n"
+                    + "BEFORE INSERT ON PROFESORES\n"
+                    + "FOR EACH ROW BEGIN\n"
+                    + " DECLARE prof_ CHAR;"
+                    + "	IF NOT validadni(NEW.dni) THEN \n"
+                    + "     SIGNAL SQLSTATE '45000'\n"
+                    + "         SET MESSAGE_TEXT = 'No es posible añadir al profesor. El dni del profesor no es válido.';\n"
+                    + "	END IF;\n"
+                    + "	SELECT 1 INTO prof_ FROM PROFESORES WHERE dni=NEW.dni;\n"
+                    + "     IF prof_ IS NOT NULL THEN\n"
+                    + "         SIGNAL SQLSTATE '45000'\n"
+                    + "             SET MESSAGE_TEXT = 'No es posible añadir al profesor. El dni que intenta introducir ya existe en la tabla.';\n"
+                    + "     END IF;\n"
+                    + "END;");
+
+            sentencia.execute("DROP TRIGGER IF EXISTS dnicorrectoUpdate");
+            sentencia.execute("CREATE TRIGGER dnicorrectoUpdate\n"
+                    + "BEFORE UPDATE ON PROFESORES\n"
+                    + "FOR EACH ROW BEGIN\n"
+                    + " DECLARE prof_ CHAR;"
+                    + "	IF NOT validadni(NEW.dni) THEN\n"
+                    + "     SIGNAL SQLSTATE '45000'\n"
+                    + "         SET MESSAGE_TEXT = 'No es posible añadir al profesor. El dni del profesor no es válido.';\n"
+                    + "	END IF;\n"
+                    + "	SELECT 1 INTO prof_ FROM PROFESORES WHERE dni=NEW.dni;\n"
+                    + "     IF prof_ IS NOT NULL THEN\n"
+                    + "         SIGNAL SQLSTATE '45000'\n"
+                    + "             SET MESSAGE_TEXT = 'No es posible añadir al profesor. El dni que intenta introducir ya existe en la tabla.';\n"
+                    + "     END IF;\n"
+                    + "END;");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.exit(5);
         }
     }
 
-}
+    public static void restriccionesCodigos(Statement sentencia) {
+        restriccionesCodigo(sentencia, "codigo_alumno", "ALUMNOS", "Alumno","INSERT");
+        restriccionesCodigo(sentencia, "codigo_alumno", "ALUMNOS", "Alumno","UPDATE");
+        restriccionesCodigo(sentencia, "codigo_asignatura", "ASIGNATURAS", "Asignatura","INSERT");
+        restriccionesCodigo(sentencia, "codigo_asignatura", "ASIGNATURAS", "Asignatura","UPDATE");
+    }
 
+
+    private static void restriccionesCodigo(Statement sentencia, String codigo, String tabla, String nombre, String tipo) {
+
+        try {
+            sentencia.execute("DROP TRIGGER IF EXISTS Codigo"+tipo+nombre);
+            sentencia.execute("CREATE TRIGGER Codigo"+tipo+nombre+"\n"
+                    + "BEFORE "+tipo+" ON " + tabla + "\n"
+                    + "FOR EACH ROW BEGIN\n"
+                    + " DECLARE cod_ CHAR;"
+                    + " IF NOT NEW." + codigo + " RLIKE '.{3}[A-Z]{1}' THEN \n"//Está puesto para que acepte todo tipo de cosas en los tres primeros (igual solo hay que dejar que acepte dígitos)
+                    + "         SIGNAL SQLSTATE '45000'\n"        
+                    + "             SET MESSAGE_TEXT = '" + nombre + " no añadido. Su código de " + nombre + " no es válido';\n"
+                    + " END IF;"
+                    + "	SELECT 1 INTO cod_ FROM " + tabla + " WHERE " + codigo + "=NEW." + codigo + ";\n"
+                    + "     IF cod_ IS NOT NULL THEN\n"
+                    + "         SIGNAL SQLSTATE '45000'\n"
+                    + "             SET MESSAGE_TEXT = '" + nombre + " no añadido. El código de " + nombre + " que intenta introducir ya existe en la tabla.';\n"
+                    + "     END IF;\n"
+                    + "END;");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.exit(5);
+        }
+
+    }
+
+}
