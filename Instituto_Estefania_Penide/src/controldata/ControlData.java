@@ -14,9 +14,31 @@ import java.util.regex.Pattern;
  * @author a20estefaniapc
  */
 public class ControlData {
-  /**
-     * Comprueba que una fecha está escrita en formato dd/mm/aaaa y que es válida.
-     * 
+
+    public static String leerCodigo(Scanner sc) {
+        String codigo = null;
+        boolean codigoValido = true;
+        do {
+            codigo = sc.next();
+            Pattern pat = Pattern.compile("[0-9]{3}[A-Z]{1}");
+            Matcher mat = pat.matcher(codigo);
+            if (mat.matches()) {
+                codigoValido = true;
+            } else {
+                System.out.println("ERROR. El código debe cumplir el formato: 3 dígitos seguido de una letra mayúscula.");
+                sc.next();
+                codigoValido = false;
+            }
+        } while (!codigoValido);
+        
+        return codigo;
+
+    }
+
+    /**
+     * Comprueba que una fecha está escrita en formato dd/mm/aaaa y que es
+     * válida.
+     *
      * @param sc Tipo Scanner
      * @return Tipo String - la fecha introducida
      */
@@ -25,7 +47,7 @@ public class ControlData {
         String fecha = null;
         boolean fechaValida = true;
         do {
-            fecha = sc.nextLine();
+            fecha = sc.next();
             Pattern pat = Pattern.compile("[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}");
             Matcher mat = pat.matcher(fecha);
             if (mat.matches()) {
@@ -61,6 +83,7 @@ public class ControlData {
             }
             if (!fechaValida) {
                 System.out.println("ERROR. No ha introducido una fecha válida.\nEscriba otra fecha. Formato: dd/mm/yyyy");
+                sc.next();
             }
 
         } while (!fechaValida);
@@ -68,10 +91,10 @@ public class ControlData {
         return fecha;
 
     }
-    
+
     /**
      * Comprueba que un dni es válido.
-     * 
+     *
      * @param sc Tipo Scanner
      * @return Tipo String - el dni introducido pasado a mayúsculas
      */
@@ -81,7 +104,7 @@ public class ControlData {
         String dni = null;
         boolean dniValido = true;
         do {
-            dni = sc.nextLine();
+            dni = sc.next();
             dni = dni.toUpperCase();
             if (dni.length() != 9) {
                 dniValido = false;
@@ -108,6 +131,8 @@ public class ControlData {
 
             if (!dniValido) {
                 System.out.println("ERROR. No ha introducido un DNI válido.");
+                sc.next();
+
             }
         } while (!dniValido);
 
@@ -415,5 +440,3 @@ public class ControlData {
         return valor;
     }
 }
-
-

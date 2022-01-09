@@ -6,6 +6,7 @@ package instituto_estefania_penide;
 
 import java.sql.Statement;
 import java.util.Scanner;
+import java.sql.ResultSet;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.Scanner;
  */
 public class Modificaciones {
     
-    public static void notaAlumno(Scanner input, Statement sentencia){
+    public static void notaAlumno(Scanner input, Statement sentencia, ResultSet rstAux){
     
     }
     

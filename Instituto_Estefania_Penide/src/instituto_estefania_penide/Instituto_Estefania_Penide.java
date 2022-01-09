@@ -38,13 +38,13 @@ public class Instituto_Estefania_Penide {
                     CreacionBD.creacionBD();
                     break;
                 case 2:
-                    Altas.altas(input);
+                    Altas.altas(input, CreacionBD.sentencia, CreacionBD.rstAux);
                     break;
                 case 3:
                     Bajas.bajas(input);
                     break;
                 case 4:
-                    Modificaciones.notaAlumno(input,CreacionBD.sentencia);//Usar sentencia y la otra como variables estáticas 
+                    Modificaciones.notaAlumno(input,CreacionBD.sentencia, CreacionBD.rstAux);//Usar sentencia y la otra como variables estáticas 
                     //en CreacionBD a ver si funciona...Usarlo en todos los apartados.
                     break;
                 case 5:

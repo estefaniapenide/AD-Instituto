@@ -55,8 +55,8 @@ public class CreacionBD {
         }
         
         CrearTablas.crearTabla(sentencia);
-        CrearTablas.restriccionesDNI(sentencia);
-        CrearTablas.restriccionesCodigos(sentencia);
+        //CrearTablas.restriccionesDNI(sentencia);
+        //CrearTablas.restriccionesCodigos(sentencia);
         
         System.out.println("BASE DE DATOS 'INSTITUTOBD' CREADA");
     

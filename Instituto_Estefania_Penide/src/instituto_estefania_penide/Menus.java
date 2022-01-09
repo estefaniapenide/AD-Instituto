@@ -32,7 +32,7 @@ public class Menus {
                 + "2.-Alumnos\n"
                 + "3.-Asignaturas\n"
                 + "4.-Notas\n"
-                + "5.-Tabla: profesor + alumno + asignatura\n\n"
+                + "5.-Tabla: alumno + asignatura + profesor\n\n"
                 + "0.-SALIR\n"
                 + "---------------------------------------------------------");
     
