@@ -71,13 +71,13 @@ public class Listados {
                 titulacion=rstAux.getString("titulacion");
             }
             System.out.println("\nPROFESOR "+nombre.toUpperCase()+", DNI "+dni.toUpperCase()+", TITULACION "+titulacion.toUpperCase());
-            System.out.println("\nASISNATURAS:");
+            System.out.println("ASISNATURAS:");
             rstAux=sentencia.executeQuery("SELECT AG.codigo_asignatura, AG.nombre_ciclo FROM PROFESORES P JOIN ALUMNOSASIGNATURASPROFESORES AAP ON P.dni=AAP.dni_profesor JOIN ASIGNATURAS AG USING(idas) WHERE AAP.dni_profesor='"+dni+"' GROUP BY AG.codigo_asignatura;");
             System.out.println("CÓDIGO\t\tNOMBRE");
             System.out.println("-----------------------------------------------------");
             while (rstAux.next()) {
                     System.out.print(rstAux.getString("AG.codigo_asignatura") + "\t\t");
-                    System.out.print(rstAux.getString("AG.nombre_ciclo") + "\t\t\n");
+                    System.out.print(rstAux.getString("AG.nombre_ciclo") + "\n");
                 }
         }else if(!existe){
         System.out.println("\nERROR. El profesor con DNI "+dni+" no está registrado.");
@@ -85,11 +85,68 @@ public class Listados {
 
     }
 
-    private static void listadoAlumno(Scanner input, Statement sentencia, ResultSet rstAux) {
+    private static void listadoAlumno(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+        
+        boolean existe = false;
+
+        System.out.println("NOTAS DE UN ALUMNO");
+        System.out.println("Introduzca el CÓDIGO del alumno:");
+        String codigoAlumno = ControlData.leerString(input);
+        rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
+        while (rstAux.next()) {
+            if (codigoAlumno.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
+                existe = true;
+            }
+        }
+        if(existe){
+            rstAux=sentencia.executeQuery("SELECT idal, nombre FROM ALUMNOS WHERE codigo_alumno='"+codigoAlumno+"';");
+            int idal=0;
+            String nombre=null;
+            while(rstAux.next()){
+                idal=rstAux.getInt("idal");
+                nombre=rstAux.getString("nombre");
+            }
+            System.out.println("\nALUMNO "+nombre.toUpperCase());
+            System.out.println("NOTAS:");
+            rstAux=sentencia.executeQuery("SELECT CONCAT (AG.codigo_asignatura,' ',AG.nombre_ciclo) AS Asignatura, N.fecha, N.nota FROM ASIGNATURAS AG JOIN NOTAS N USING(idas) JOIN ALUMNOS A USING(idal) WHERE A.idal="+idal+" ORDER BY AG.codigo_asignatura;");
+            System.out.println("ASIGNATURA\t\tFECHA\t\tNOTA");
+            System.out.println("-----------------------------------------------------");
+            while (rstAux.next()) {
+                    System.out.print(rstAux.getString("Asignatura") + "\t");
+                    System.out.print(rstAux.getString("N.fecha") + "\t");
+                    System.out.print(rstAux.getFloat("N.nota") + "\n");
+                }
+        }else if(!existe){
+            System.out.println("\nERROR. El alumno con CÓDIGO "+codigoAlumno+" no está registrado.");
+        }
 
     }
 
-    private static void listadoAsignatura(Scanner input, Statement sentencia, ResultSet rstAux) {
+    private static void listadoAsignatura(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+        
+        boolean existe = false;
+
+        System.out.println("ASIGNATURA Y PROFESOR");
+        System.out.println("Introduzca el CÓDIGO de la asignatura:");
+        String codigoAsignatura = ControlData.leerString(input);
+        rstAux = sentencia.executeQuery("SELECT * FROM ASIGNATURAS");
+        while (rstAux.next()) {
+            if (codigoAsignatura.equalsIgnoreCase(rstAux.getString("codigo_asignatura"))) {
+                existe = true;
+            }
+        }
+        if(existe){
+            rstAux=sentencia.executeQuery("SELECT CONCAT(AG.codigo_asignatura,' ',AG.nombre_ciclo) AS Asignatura, P.nombre, P.dni FROM ASIGNATURAS AG LEFT JOIN ALUMNOSASIGNATURASPROFESORES AAP USING(idas) LEFT JOIN PROFESORES P ON P.dni=AAP.dni_profesor WHERE AG.codigo_asignatura='"+codigoAsignatura+"' GROUP BY AG.idas;");
+            System.out.println("\nASIGNATURA\t\tPROFSEOR\t\tDNI");
+            System.out.println("----------------------------------------------------------");
+            while (rstAux.next()) {
+                    System.out.print(rstAux.getString("Asignatura") + "\t");
+                    System.out.print(rstAux.getString("P.nombre") + "\t\t");
+                    System.out.print(rstAux.getString("P.dni") + "\n");
+                }
+        }else if(!existe){
+            System.out.println("\nERROR. La asignatura con CÓDIGO "+codigoAsignatura+" no está registrada.");
+        }
 
     }
 

@@ -14,7 +14,7 @@ public class Menus {
 
         System.out.println("---------------------------------------------------------\n"
                 + "\t\t\tMENÚ PRINCIPAL\n"
-                + "1.-Creación\n"
+                + "1.-Creación/Conexión a BD\n"
                 + "2.-Altas\n"
                 + "3.-Bajas\n"
                 + "4.-Modificaciones\n"
@@ -51,10 +51,10 @@ public class Menus {
     public static void menuListados(){
     
     System.out.println("---------------------------------------------------------\n"
-                + "\t\t\tLISTADOS/CONSULTAS\n"
-                + "1.-Listado de un profesor(asignaturas que imparte)\n"
-                + "2.-Listado de un alumno(notas que tiene en cada asignatura)\n"
-                + "3.-Listado de una asignatura(con los profesores que la impraten)\n\n"
+                + "\t\t\tLISTADOS/CONSULTAS\n\n"
+                + "1.-Listado de un profesor (asignaturas que imparte)\n"
+                + "2.-Listado de un alumno (notas que tiene en cada asignatura)\n"
+                + "3.-Listado de una asignatura (con los profesores que la imparten)\n\n"
                 + "0.-SALIR\n"
                 + "---------------------------------------------------------");
     }

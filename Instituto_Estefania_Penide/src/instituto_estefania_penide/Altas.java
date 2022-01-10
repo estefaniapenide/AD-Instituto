@@ -175,13 +175,13 @@ public class Altas {
     }
 
     private static void notas(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
-        
+
         boolean existeAlumno = false;
         boolean existeAsignatura = false;
-        boolean existeNota=false;
-        
+        boolean existeNota = false;
+
         System.out.println("NUEVA NOTA");
-        
+
         System.out.println("Introduzca el CÓDIGO del alumno:");
         String codigoAlumno = ControlData.leerString(input);
         rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
@@ -214,33 +214,33 @@ public class Altas {
                 String fecha = ControlData.leerFecha(input);
                 rstAux = sentencia.executeQuery("SELECT * FROM NOTAS");
                 while (rstAux.next()) {
-                    if (idal == rstAux.getInt("idal") && idas == rstAux.getInt("idas")&& fecha.equals(rstAux.getString("fecha"))) {
+                    if (idal == rstAux.getInt("idal") && idas == rstAux.getInt("idas") && fecha.equals(rstAux.getString("fecha"))) {
                         existeNota = true;
                     }
                 }
-                if(!existeNota){
+                if (!existeNota) {
                     System.out.println("Introduzca la NOTA:");
                     Float nota = ControlData.leerFloat(input);
-                    sentencia.executeUpdate("INSERT INTO NOTAS (idal, idas, fecha,nota) VALUES (" + idal + "," + idas + ",'" + fecha + "',"+nota+");");
+                    sentencia.executeUpdate("INSERT INTO NOTAS (idal, idas, fecha, nota) VALUES (" + idal + "," + idas + ",'" + fecha + "'," + nota + ");");
                     System.out.println("\nLOS DATOS HAN SIDO REGISTRADOS CORRECTAMENTE.");
-                }else if(existeNota){
-                    System.out.println("\nERROR.No es posible añadir la nota.\nEl alumno "+codigoAlumno+" ya tiene una nota asignada en la asignatura "+codigoAsignatura+" a fecha de "+fecha+".");
-                    rstAux=sentencia.executeQuery("SELECT CONCAT(A.codigo_alumno,' ', A.nombre) as Alumno , CONCAT(AG.codigo_asignatura,' ',AG.nombre_ciclo) as Asignatura , N.fecha , N.nota from ALUMNOS A JOIN NOTAS N USING (idal) JOIN ASIGNATURAS AG USING(idas) WHERE A.idal=" + idal + " AND AG.idas=" + idas + " AND fecha='" + fecha + "';");
-                    while(rstAux.next()){
-                    System.out.println("\nNOTA YA REGISTRADA");
-                    System.out.println("\tAlumno: "+rstAux.getString("Alumno"));
-                    System.out.println("\tAsignatura: "+rstAux.getString("Asignatura"));
-                    System.out.println("\tFecha: "+rstAux.getDate("N.fecha"));
-                    System.out.println("\tNota: "+rstAux.getFloat("N.nota"));
+                } else if (existeNota) {
+                    System.out.println("\nERROR.No es posible añadir la nota.\nEl alumno " + codigoAlumno + " ya tiene una nota asignada en la asignatura " + codigoAsignatura + " a fecha de " + fecha + ".");
+                    rstAux = sentencia.executeQuery("SELECT CONCAT(A.codigo_alumno,' ', A.nombre) as Alumno , CONCAT(AG.codigo_asignatura,' ',AG.nombre_ciclo) as Asignatura , N.fecha , N.nota from ALUMNOS A JOIN NOTAS N USING (idal) JOIN ASIGNATURAS AG USING(idas) WHERE A.idal=" + idal + " AND AG.idas=" + idas + " AND fecha='" + fecha + "';");
+                    while (rstAux.next()) {
+                        System.out.println("\nNOTA YA REGISTRADA");
+                        System.out.println("\tAlumno: " + rstAux.getString("Alumno"));
+                        System.out.println("\tAsignatura: " + rstAux.getString("Asignatura"));
+                        System.out.println("\tFecha: " + rstAux.getDate("N.fecha"));
+                        System.out.println("\tNota: " + rstAux.getFloat("N.nota"));
                     }
                 }
             } else if (!existeAsignatura) {//Si la asignatura no está registrada en ASIGNATURAS, no se podrá añadir a la tabla NOTAS
                 System.out.println("ERROR.No es posible añadir la asignatura con CÓDIGO " + codigoAsignatura + " a la tabla ya que no está registrada en ASIGNATURAS.");
             }
-        }else if (!existeAlumno) {//Si el alumno no está registrado en ALUMNOS, no se podrá añadir a la tabla NOTAS
+        } else if (!existeAlumno) {//Si el alumno no está registrado en ALUMNOS, no se podrá añadir a la tabla NOTAS
             System.out.println("ERROR.No es posible añadir el alumno con CÓDIGO " + codigoAlumno + " a la tabla ya que no está registrado en ALUMNOS.");
         }
-  
+
     }
 
     private static void alumnoAsignaturaProfesor(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
@@ -335,8 +335,8 @@ public class Altas {
                                     prof = rstAux.getString("AAP.dni_profesor");
                                 }
                                 System.out.println("\nASIGNATURA + PROFESOR");
-                                System.out.println("\tAsignatura: "+codigoAsignatura + " " + asig);
-                                System.out.println("\tProfesor(DNI): "+prof);
+                                System.out.println("\tAsignatura: " + codigoAsignatura + " " + asig);
+                                System.out.println("\tProfesor(DNI): " + prof);
                             }
 
                         }

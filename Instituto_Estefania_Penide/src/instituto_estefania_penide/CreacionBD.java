@@ -29,12 +29,12 @@ public class CreacionBD {
         //Declaracion de driver y url
         
         //Para usbwebserver
-        //String driver= "com.mysql.jdbc.Driver";   
-        //String url= "jdbc:mysql://localhost:3307/Alumnos?user=root&password=usbw";
+        String driver= "com.mysql.cj.jdbc.Driver";   
+        String url= "jdbc:mysql://localhost:3307/Alumnos?user=root&password=usbw";
         
         //Para my server de mysql en casa
-        String driver="com.mysql.cj.jdbc.Driver";
-        String url= "jdbc:mysql://localhost:3306/Alumnos?user=root&password=1234";
+        //String driver="com.mysql.cj.jdbc.Driver";
+        //String url= "jdbc:mysql://localhost:3306/Alumnos?user=root&password=1234";
 
         //No es necesario desde la ultima versión(pero me sirvió para encontrar el driver conncetor j de mysql)
         try {

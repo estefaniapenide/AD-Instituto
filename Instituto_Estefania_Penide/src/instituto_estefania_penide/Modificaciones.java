@@ -41,12 +41,12 @@ public class Modificaciones {
                 }
                 System.out.println("\nNOTAS DEL ALUMNO " + nombre.toUpperCase() + ":\n");
                 rstAux = sentencia.executeQuery("SELECT CONCAT(AG.codigo_asignatura,' ' ,AG.nombre_ciclo) AS Asignatura ,N.fecha ,N.nota FROM ALUMNOS A JOIN NOTAS N USING(idal) JOIN ASIGNATURAS AG USING(idas) WHERE A.codigo_alumno='" + codigoAlumno + "';");
-                System.out.println("ASIGNATURA\t\tFECHA\t\t\tNOTA");
+                System.out.println("ASIGNATURA\t\tFECHA\t\tNOTA");
                 System.out.println("-----------------------------------------------------");
                 while (rstAux.next()) {
-                    System.out.print(rstAux.getString("Asignatura") + "\t\t");
-                    System.out.print(rstAux.getDate("N.fecha") + "\t\t");
-                    System.out.print(rstAux.getFloat("N.nota") + "\t\t\n");
+                    System.out.print(rstAux.getString("Asignatura") + "\t");
+                    System.out.print(rstAux.getDate("N.fecha") + "\t");
+                    System.out.print(rstAux.getFloat("N.nota") + "\n");
                 }
                 System.out.println("\nIntroduzca el CÓDIGO de la asignatura de la nota a modificar:");
                 String codigoAsignatura = ControlData.leerString(input);
@@ -80,12 +80,12 @@ public class Modificaciones {
                         if (existeNota) {
                             System.out.println("\nNOTA ACTUAL DEL ALUMNO " + nombre.toUpperCase() + ":");
                             rstAux = sentencia.executeQuery("SELECT CONCAT(AG.codigo_asignatura,' ' ,AG.nombre_ciclo) AS Asignatura ,N.fecha ,N.nota FROM ALUMNOS A JOIN NOTAS N USING(idal) JOIN ASIGNATURAS AG USING(idas) WHERE A.codigo_alumno='" + codigoAlumno + "' AND AG.codigo_asignatura='" + codigoAsignatura + "' AND N.fecha='" + fecha + "';");
-                            System.out.println("ASIGNATURA\t\tFECHA\t\t\tNOTA");
+                            System.out.println("ASIGNATURA\t\tFECHA\t\tNOTA");
                             System.out.println("-----------------------------------------------------");
                             while (rstAux.next()) {
-                                System.out.print(rstAux.getString("Asignatura") + "\t\t");
-                                System.out.print(rstAux.getDate("N.fecha") + "\t\t");
-                                System.out.print(rstAux.getFloat("N.nota") + "\t\t\n");
+                                System.out.print(rstAux.getString("Asignatura") + "\t");
+                                System.out.print(rstAux.getDate("N.fecha") + "\t");
+                                System.out.print(rstAux.getFloat("N.nota") + "\n");
                             }
                             System.out.println("\nIntroduzca la NUEVA NOTA:");
                             Float nota = ControlData.leerFloat(input);
