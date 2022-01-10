@@ -41,14 +41,13 @@ public class Instituto_Estefania_Penide {
                     Altas.altas(input, CreacionBD.sentencia, CreacionBD.rstAux);
                     break;
                 case 3:
-                    Bajas.bajas(input);
+                    Bajas.bajas(input,CreacionBD.sentencia,CreacionBD.rstAux);
                     break;
                 case 4:
-                    Modificaciones.notaAlumno(input,CreacionBD.sentencia, CreacionBD.rstAux);//Usar sentencia y la otra como variables estáticas 
-                    //en CreacionBD a ver si funciona...Usarlo en todos los apartados.
+                    Modificaciones.notaAlumno(input,CreacionBD.sentencia, CreacionBD.rstAux);
                     break;
                 case 5:
-                    Listados.consultas(input);
+                    Listados.consultas(input,CreacionBD.sentencia, CreacionBD.rstAux);
                     break;
                 case 0:
                     System.out.println("PROGRAMA FINALIZADO");
@@ -61,6 +60,7 @@ public class Instituto_Estefania_Penide {
         }while(op!=0);
         
        input.close();
+ 
     }
  
 }

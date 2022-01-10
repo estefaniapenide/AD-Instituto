@@ -24,7 +24,7 @@ public class CrearTablas {
                     + "(dni CHAR(10) NOT NULL,"//controlar que el dni sea correcto (trigers en la base de datos?/control cuando se pide por teclado??)
                     + "nombre VARCHAR(30) NOT NULL,"
                     + "titulacion VARCHAR(30) NOT NULL,"
-                    + "PRIMARY KEY (dni))"
+                    + "PRIMARY KEY (dni)) "
                     + "ENGINE INNODB;");
             //sentencia.execute("DROP TABLE IF EXISTS ALUMNOS");
             sentencia.execute("CREATE TABLE IF NOT EXISTS ALUMNOS"
@@ -46,19 +46,19 @@ public class CrearTablas {
                     + "idas INT(4) ZEROFILL NOT NULL,"
                     + "dni_profesor CHAR(10) NOT NULL,"
                     + "PRIMARY KEY (idas,idal)," //mirar bien lo de la clave compuesta
-                    + "FOREIGN KEY (dni_profesor) references PROFESORES(dni),"
-                    + "FOREIGN KEY (idal) references ALUMNOS(idal),"
-                    + "FOREIGN KEY (idas) references ASIGNATURAS(idas))"
+                    + "FOREIGN KEY (dni_profesor) references PROFESORES(dni) ON DELETE CASCADE ON UPDATE CASCADE,"
+                    + "FOREIGN KEY (idal) references ALUMNOS(idal) ON DELETE CASCADE ON UPDATE CASCADE,"
+                    + "FOREIGN KEY (idas) references ASIGNATURAS(idas) ON DELETE CASCADE ON UPDATE CASCADE)"
                     + "ENGINE INNODB;");
-            sentencia.execute("DROP TABLE IF EXISTS NOTAS");
+            //sentencia.execute("DROP TABLE IF EXISTS NOTAS");
             sentencia.execute("CREATE TABLE IF NOT EXISTS NOTAS" //ver ls otras restricciones del enunciado
                     + "(idal INT(4) ZEROFILL NOT NULL,"
                     + "idas INT(4) ZEROFILL NOT NULL,"
                     + "fecha DATE NOT NULL,"
                     + "nota FLOAT(4,2) NOT NULL,"
                     + "PRIMARY KEY (idal,idas,fecha),"
-                    + "FOREIGN KEY (idal) references ALUMNOS(idal),"
-                    + "FOREIGN KEY (idaS) references ASIGNATURAS(idas))"
+                    + "FOREIGN KEY (idal) references ALUMNOS(idal) ON DELETE CASCADE ON UPDATE CASCADE,"
+                    + "FOREIGN KEY (idas) references ASIGNATURAS(idas) ON DELETE CASCADE ON UPDATE CASCADE)"
                     + "ENGINE INNODB;");
         } catch (SQLException e) {
             System.out.println(e.getMessage());

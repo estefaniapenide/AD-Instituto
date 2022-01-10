@@ -26,7 +26,7 @@ public class ControlData {
                 codigoValido = true;
             } else {
                 System.out.println("ERROR. El código debe cumplir el formato: 3 dígitos seguido de una letra mayúscula.");
-                sc.next();
+                //sc.next();
                 codigoValido = false;
             }
         } while (!codigoValido);
