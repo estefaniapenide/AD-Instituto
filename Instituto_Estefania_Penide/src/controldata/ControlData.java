@@ -36,7 +36,7 @@ public class ControlData {
     }
 
     /**
-     * Comprueba que una fecha está escrita en formato dd/mm/aaaa y que es
+     * Comprueba que una fecha está escrita en formato aaaa-mm-dd y que es
      * válida.
      *
      * @param sc Tipo Scanner
@@ -48,12 +48,12 @@ public class ControlData {
         boolean fechaValida = true;
         do {
             fecha = sc.next();
-            Pattern pat = Pattern.compile("[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}");
+            Pattern pat = Pattern.compile("[0-9]{4}[-]{1}[0-9]{2}[-]{1}[0-9]{2}");
             Matcher mat = pat.matcher(fecha);
             if (mat.matches()) {
-                int dia = Integer.parseInt(Character.toString(fecha.charAt(0)) + Character.toString(fecha.charAt(1)));
-                int mes = Integer.parseInt(Character.toString(fecha.charAt(3)) + Character.toString(fecha.charAt(4)));
-                int ano = Integer.parseInt(Character.toString(fecha.charAt(6)) + Character.toString(fecha.charAt(7)) + Character.toString(fecha.charAt(8)) + Character.toString(fecha.charAt(9)));
+                int dia = Integer.parseInt(Character.toString(fecha.charAt(8)) + Character.toString(fecha.charAt(9)));
+                int mes = Integer.parseInt(Character.toString(fecha.charAt(5)) + Character.toString(fecha.charAt(6)));
+                int ano = Integer.parseInt(Character.toString(fecha.charAt(0)) + Character.toString(fecha.charAt(1)) + Character.toString(fecha.charAt(2)) + Character.toString(fecha.charAt(3)));
                 if (mes > 12 || mes < 1) {
                     fechaValida = false;
                 } else if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
@@ -82,7 +82,7 @@ public class ControlData {
                 fechaValida = false;
             }
             if (!fechaValida) {
-                System.out.println("ERROR. No ha introducido una fecha válida.\nEscriba otra fecha. Formato: dd/mm/yyyy");
+                System.out.println("ERROR. No ha introducido una fecha válida.\nEscriba otra fecha. Formato: yyyy-mm-dd");
                 sc.next();
             }
 
