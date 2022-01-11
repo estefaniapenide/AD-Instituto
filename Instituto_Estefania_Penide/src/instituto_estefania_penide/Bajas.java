@@ -16,7 +16,7 @@ import java.sql.Statement;
  */
 public class Bajas {
 
-    public static void bajas(Scanner input, Statement sentencia, ResultSet rstAux) {
+    public static void bajas(Scanner input, Statement sentencia) {
 
         try {
             byte op = 0;
@@ -26,10 +26,10 @@ public class Bajas {
 
                 switch (op) {
                     case 1:
-                        profesores(input, sentencia, rstAux);
+                        profesores(input, sentencia);
                         break;
                     case 2:
-                        alumnos(input, sentencia, rstAux);
+                        alumnos(input, sentencia);
                         break;
                     case 0:
                         System.out.println("Volviendo al menú principal...");
@@ -47,14 +47,14 @@ public class Bajas {
 
     }
 
-    private static void profesores(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void profesores(Scanner input, Statement sentencia) throws SQLException {
 
         boolean existe = false;
 
         System.out.println("ELIMINAR PROFESOR");
         System.out.println("Introduzca el DNI del profesor:");
         String dni = ControlData.leerString(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES");
+        ResultSet rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES");
         while (rstAux.next()) {
             if (dni.equalsIgnoreCase(rstAux.getString("dni"))) {
                 existe = true;
@@ -83,17 +83,19 @@ public class Bajas {
         } else if (!existe) {
             System.out.println("\nERROR.No existe ningún profesor con DNI " + dni);
         }
+        
+        rstAux.close();
 
     }
 
-    private static void alumnos(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void alumnos(Scanner input, Statement sentencia) throws SQLException {
         
         boolean existe = false;
 
         System.out.println("ELIMINAR ALUMNO");
         System.out.println("Introduzca el CÓDIGO del alumno:");
         String codigo = ControlData.leerString(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
+        ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
         while (rstAux.next()) {
             if (codigo.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
                 existe = true;
@@ -122,6 +124,8 @@ public class Bajas {
         } else if (!existe) {
             System.out.println("\nERROR.No existe ningún alumno con CÓDIGO " + codigo);
         }
+        
+        rstAux.close();
 
     }
 

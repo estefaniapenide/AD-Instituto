@@ -7,6 +7,7 @@ package instituto_estefania_penide;
 import controldata.ControlData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Scanner;
 import java.sql.Statement;
 
@@ -16,7 +17,7 @@ import java.sql.Statement;
  */
 public class Altas {
 
-    public static void altas(Scanner input, Statement sentencia, ResultSet rstAux) {
+    public static void altas(Scanner input, Statement sentencia) {
 
         try {
 
@@ -28,19 +29,19 @@ public class Altas {
 
                 switch (op) {
                     case 1:
-                        profesores(input, sentencia, rstAux);
+                        profesores(input, sentencia);
                         break;
                     case 2:
-                        alumnos(input, sentencia, rstAux);
+                        alumnos(input, sentencia);
                         break;
                     case 3:
-                        asignaturas(input, sentencia, rstAux);
+                        asignaturas(input, sentencia);
                         break;
                     case 4:
-                        notas(input, sentencia, rstAux);
+                        notas(input, sentencia);
                         break;
                     case 5:
-                        alumnoAsignaturaProfesor(input, sentencia, rstAux);
+                        alumnoAsignaturaProfesor(input, sentencia);
                         break;
                     case 0:
                         System.out.println("Volviendo al menú principal...");
@@ -58,123 +59,95 @@ public class Altas {
 
     }
 
-    private static void profesores(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void profesores(Scanner input, Statement sentencia) throws SQLException {
 
-        boolean existeDni = false;
+        String dni = null;
+        try {
 
-        System.out.println("NUEVO PROFESOR");
-        System.out.println("Introduzca el DNI del profesor:");
-        String dni = ControlData.leerDni(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES");
-        while (rstAux.next()) {
-            if (dni.equalsIgnoreCase(rstAux.getString("dni"))) {
-                existeDni = true;
-            }
-        }
-        if (existeDni) {
-            System.out.println("No se puede registar el DNI " + dni + ".\nEl dni que intenta introducir ya existe en la tabla profesores.");
-            rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES WHERE dni = '" + dni + "'");
-            while (rstAux.next()) {
-                System.out.println("Los datos del profesor son:");
-                System.out.println("\tDNI: " + rstAux.getString("dni"));
-                System.out.println("\tNombre: " + rstAux.getString("nombre"));
-                System.out.println("\tTitulación: " + rstAux.getString("titulacion"));
-            }
-        } else if (!existeDni) {
+            System.out.println("NUEVO PROFESOR");
+            System.out.println("Introduzca el DNI del profesor:");
+            dni = ControlData.leerDni(input);
             System.out.println("Introduzca el NOMBRE del profesor:");
             String nombre = ControlData.leerString(input);
             System.out.println("Introduzca la TITULACIÓN del profesor:");
             String titulacion = ControlData.leerString(input);
             sentencia.executeUpdate("INSERT INTO PROFESORES (dni, nombre, titulacion) VALUES ('" + dni + "','" + nombre + "','" + titulacion + "')");
             System.out.println("\nPROFESOR AÑADIDO");
-            rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES WHERE dni = '" + dni + "'");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("\nERROR. No se puede registar el DNI " + dni + ".\nEl dni que intenta introducir YA EXISTE en la tabla PROFESORES.");
+        } finally {
+            ResultSet rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES WHERE dni = '" + dni + "'");
             while (rstAux.next()) {
-                System.out.println("Los datos del profesor son:");
+                System.out.println("\nLos DATOS del PROFESOR son:");
                 System.out.println("\tDNI: " + rstAux.getString("dni"));
                 System.out.println("\tNombre: " + rstAux.getString("nombre"));
                 System.out.println("\tTitulación: " + rstAux.getString("titulacion"));
             }
+            rstAux.close();
         }
-
     }
 
-    private static void alumnos(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void alumnos(Scanner input, Statement sentencia) throws SQLException {
 
-        boolean existeCodigo = false;
+        String codigo = null;
 
-        System.out.println("NUEVO ALUMNO");
-        System.out.println("Introduzca el CÓDIGO del alumno:");
-        String codigo = ControlData.leerCodigo(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
-        while (rstAux.next()) {
-            if (codigo.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
-                existeCodigo = true;
-            }
-        }
-        if (existeCodigo) {
-            System.out.println("No se puede registar el código " + codigo + ".\nEl código que intenta introducir ya existe en la tabla alumnos.");
-            rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS WHERE codigo_alumno = '" + codigo + "'");
-            while (rstAux.next()) {
-                System.out.println("Los datos del alumno son:");
-                System.out.println("\tIdal: " + rstAux.getInt("idal"));
-                System.out.println("\tCódigo_alumno: " + rstAux.getString("codigo_alumno"));
-                System.out.println("\tNombre: " + rstAux.getString("nombre"));
-            }
-        } else if (!existeCodigo) {
+        try {
+
+            System.out.println("NUEVO ALUMNO");
+            System.out.println("Introduzca el CÓDIGO del alumno:");
+            codigo = ControlData.leerCodigo(input);
             System.out.println("Introduzca el NOMBRE del alumno:");
             String nombre = ControlData.leerString(input);
             sentencia.executeUpdate("INSERT INTO ALUMNOS (codigo_alumno, nombre) VALUES ('" + codigo + "','" + nombre + "')");
             System.out.println("\nALUMNO AÑADIDO");
-            rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS WHERE codigo_alumno = '" + codigo + "'");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("\nERROR. No se puede registar el CÓDIGO " + codigo + ".\nEl código que intenta introducir YA EXISTE en la tabla ALUMNOS.");
+        } finally {
+            ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS WHERE codigo_alumno = '" + codigo + "'");
             while (rstAux.next()) {
-                System.out.println("Los datos del alumno son:");
+                System.out.println("\nLos DATOS del ALUMNO son:");
                 System.out.println("\tIdal: " + rstAux.getInt("idal"));
                 System.out.println("\tCódigo_alumno: " + rstAux.getString("codigo_alumno"));
                 System.out.println("\tNombre: " + rstAux.getString("nombre"));
             }
+            rstAux.close();
         }
 
     }
 
-    private static void asignaturas(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void asignaturas(Scanner input, Statement sentencia) throws SQLException {
 
-        boolean existeCodigo = false;
+        String codigo = null;
 
-        System.out.println("NUEVA ASIGNATURA");
-        System.out.println("Introduzca el CÓDIGO de la asignatura:");
-        String codigo = ControlData.leerCodigo(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM ASIGNATURAS");
-        while (rstAux.next()) {
-            if (codigo.equalsIgnoreCase(rstAux.getString("codigo_asignatura"))) {
-                existeCodigo = true;
-            }
-        }
-        if (existeCodigo) {
-            System.out.println("No se puede registar el código " + codigo + ".\nEl código que intenta introducir ya existe en la tabla asignaturas.");
-            rstAux = sentencia.executeQuery("SELECT * FROM ASIGNATURAS WHERE codigo_asignatura = '" + codigo + "'");
-            while (rstAux.next()) {
-                System.out.println("Los datos de la asignatura son:");
-                System.out.println("\tIdas: " + rstAux.getInt("idas"));
-                System.out.println("\tCódigo_asignatura: " + rstAux.getString("codigo_asignatura"));
-                System.out.println("\tNombre: " + rstAux.getString("nombre_ciclo"));
-            }
-        } else if (!existeCodigo) {
+        try {
+
+            System.out.println("NUEVA ASIGNATURA");
+            System.out.println("Introduzca el CÓDIGO de la asignatura:");
+            codigo = ControlData.leerCodigo(input);
             System.out.println("Introduzca el NOMBRE de la asignatura:");
             String nombre = ControlData.leerString(input);
             sentencia.executeUpdate("INSERT INTO ASIGNATURAS (codigo_asignatura, nombre_ciclo) VALUES ('" + codigo + "','" + nombre + "')");
             System.out.println("\nASIGNATURA AÑADIDA");
-            rstAux = sentencia.executeQuery("SELECT * FROM ASIGNATURAS WHERE codigo_asignatura = '" + codigo + "'");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("\nERROR. No se puede registar el CÓDIGO " + codigo + ".\nEl código que intenta introducir YA EXISTE en la tabla ASIGNATURAS.");
+        } finally {
+            ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ASIGNATURAS WHERE codigo_asignatura = '" + codigo + "'");
             while (rstAux.next()) {
-                System.out.println("Los datos de la asignatura son:");
+                System.out.println("\nLos DATOS de la ASIGNATURA son:");
                 System.out.println("\tIdas: " + rstAux.getInt("idas"));
                 System.out.println("\tCódigo_asignatura: " + rstAux.getString("codigo_asignatura"));
                 System.out.println("\tNombre: " + rstAux.getString("nombre_ciclo"));
             }
+            
+            rstAux.close();
         }
 
     }
 
-    private static void notas(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void notas(Scanner input, Statement sentencia) throws SQLException {
 
         boolean existeAlumno = false;
         boolean existeAsignatura = false;
@@ -184,7 +157,7 @@ public class Altas {
 
         System.out.println("Introduzca el CÓDIGO del alumno:");
         String codigoAlumno = ControlData.leerString(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
+        ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
         while (rstAux.next()) {
             if (codigoAlumno.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
                 existeAlumno = true;
@@ -240,10 +213,12 @@ public class Altas {
         } else if (!existeAlumno) {//Si el alumno no está registrado en ALUMNOS, no se podrá añadir a la tabla NOTAS
             System.out.println("ERROR.No es posible añadir el alumno con CÓDIGO " + codigoAlumno + " a la tabla ya que no está registrado en ALUMNOS.");
         }
+        
+        rstAux.close();
 
     }
 
-    private static void alumnoAsignaturaProfesor(Scanner input, Statement sentencia, ResultSet rstAux) throws SQLException {
+    private static void alumnoAsignaturaProfesor(Scanner input, Statement sentencia) throws SQLException {
 
         boolean existeAlumno = false;
         boolean existeAsignatura = false;
@@ -258,7 +233,7 @@ public class Altas {
 
         System.out.println("Introduzca el CÓDIGO del alumno:");
         String codigoAlumno = ControlData.leerString(input);
-        rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
+        ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
         while (rstAux.next()) {
             if (codigoAlumno.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
                 existeAlumno = true;
@@ -371,6 +346,8 @@ public class Altas {
         } else if (!existeAlumno) {//Si el alumno no está registrado en ALUMNOS, no se podrá añadir a la tabla relacional
             System.out.println("\nERROR.No es posible añadir el alumno con CÓDIGO " + codigoAlumno + " a la tabla ya que no está registrado en ALUMNOS.");
         }
+        
+        rstAux.close();
 
     }
 

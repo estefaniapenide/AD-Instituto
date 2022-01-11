@@ -12,7 +12,7 @@ import java.sql.SQLException;
  */
 public class Modificaciones {
 
-    public static void notaAlumno(Scanner input, Statement sentencia, ResultSet rstAux) {
+    public static void notaAlumno(Scanner input, Statement sentencia) {
 
         try {
 
@@ -25,7 +25,7 @@ public class Modificaciones {
 
             System.out.println("Introduzca el CÓDIGO del alumno:");
             String codigoAlumno = ControlData.leerString(input);
-            rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
+            ResultSet rstAux = sentencia.executeQuery("SELECT * FROM ALUMNOS");
             while (rstAux.next()) {
                 if (codigoAlumno.equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
                     existeAlumno = true;
@@ -103,6 +103,8 @@ public class Modificaciones {
             } else if (!existeAlumno) {
                 System.out.println("\nERROR.El alumno " + codigoAlumno + " no está registrado.");
             }
+            
+            rstAux.close();
 
         } catch (SQLException e) {
             e.printStackTrace();

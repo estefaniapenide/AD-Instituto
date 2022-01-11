@@ -21,7 +21,7 @@ public class CrearTablas {
             sentencia.execute("USE BDINSTITUTO;");
             //sentencia.execute("DROP TABLE IF EXISTS PROFESORES");
             sentencia.execute("CREATE TABLE IF NOT EXISTS PROFESORES"
-                    + "(dni CHAR(10) NOT NULL,"//controlar que el dni sea correcto (trigers en la base de datos?/control cuando se pide por teclado??)
+                    + "(dni CHAR(10) NOT NULL,"
                     + "nombre VARCHAR(30) NOT NULL,"
                     + "titulacion VARCHAR(30) NOT NULL,"
                     + "PRIMARY KEY (dni)) "
@@ -29,14 +29,14 @@ public class CrearTablas {
             //sentencia.execute("DROP TABLE IF EXISTS ALUMNOS");
             sentencia.execute("CREATE TABLE IF NOT EXISTS ALUMNOS"
                     + "(idal INT(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,"
-                    + "codigo_alumno VARCHAR(30) NOT NULL," //[0-9]{3}[A-Z]{1} cambiar esto para que se ajuste a la expresión regular(se puede filtrar cuando pidamos los datos por teclado)
+                    + "codigo_alumno VARCHAR(30) NOT NULL UNIQUE," 
                     + "nombre VARCHAR(30) NOT NULL,"
                     + "PRIMARY KEY (idal))"
                     + "ENGINE INNODB;");
             //sentencia.execute("DROP TABLE IF EXISTS ASIGNATURAS");
             sentencia.execute("CREATE TABLE IF NOT EXISTS ASIGNATURAS"
                     + "(idas INT(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,"
-                    + "codigo_asignatura VARCHAR(30) NOT NULL," //[0-9]{3}[A-Z]{1} cambiar esto para que se ajuste a la expresión regular(se puede filtrar cuando pidamos los datos por teclado)
+                    + "codigo_asignatura VARCHAR(30) NOT NULL UNIQUE," 
                     + "nombre_ciclo VARCHAR(30) NOT NULL,"
                     + "PRIMARY KEY (idas))"
                     + "ENGINE INNODB;");
@@ -167,7 +167,7 @@ public class CrearTablas {
                     + "BEFORE "+tipo+" ON " + tabla + "\n"
                     + "FOR EACH ROW BEGIN\n"
                     + " DECLARE cod_ CHAR;"
-                    + " IF NOT NEW." + codigo + " RLIKE '.{3}[A-Z]{1}' THEN \n"//Está puesto para que acepte todo tipo de cosas en los tres primeros (igual solo hay que dejar que acepte dígitos)
+                    + " IF NOT NEW." + codigo + " RLIKE '[0-9]{3}[A-Z]{1}' THEN \n"
                     + "         SIGNAL SQLSTATE '45000'\n"        
                     + "             SET MESSAGE_TEXT = '" + nombre + " no añadido. Su código de " + nombre + " no es válido';\n"
                     + " END IF;"

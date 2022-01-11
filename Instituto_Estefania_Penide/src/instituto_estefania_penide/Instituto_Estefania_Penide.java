@@ -35,34 +35,34 @@ public class Instituto_Estefania_Penide {
             switch (op) {
                 case 1:
                     //Igual pido datos para crearla
-                    CreacionBD.creacionBD();
+                    ConectarConBD.conectarseInstitutoBD(input);
                     break;
                 case 2:
                     if(baseDatosLista()){
-                    Altas.altas(input, CreacionBD.sentencia, CreacionBD.rstAux);
+                    Altas.altas(input, ConectarConBD.sentencia);
                     }else{
-                    System.out.println("ERROR. No se ha conectado a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
                 case 3:
                     if(baseDatosLista()){
-                    Bajas.bajas(input, CreacionBD.sentencia, CreacionBD.rstAux);
+                    Bajas.bajas(input, ConectarConBD.sentencia);
                     }else{
-                    System.out.println("ERROR. No se ha conectado a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
                 case 4:
                     if(baseDatosLista()){
-                    Modificaciones.notaAlumno(input, CreacionBD.sentencia, CreacionBD.rstAux);
+                    Modificaciones.notaAlumno(input, ConectarConBD.sentencia);
                     }else{
-                    System.out.println("ERROR. No se ha conectado a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
                 case 5:
                     if(baseDatosLista()){
-                    Listados.consultas(input, CreacionBD.sentencia, CreacionBD.rstAux);
+                    Listados.consultas(input, ConectarConBD.sentencia);
                     }else{
-                    System.out.println("ERROR. No se ha conectado a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
                 case 0:
@@ -81,7 +81,7 @@ public class Instituto_Estefania_Penide {
 
     public static boolean baseDatosLista() {
         boolean lista = false;
-        if (CreacionBD.sentencia == null && CreacionBD.rstAux == null) {
+        if (ConectarConBD.sentencia == null) {
             lista = false;
         } else {
             lista = true;
