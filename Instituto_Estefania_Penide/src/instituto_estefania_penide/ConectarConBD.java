@@ -28,51 +28,29 @@ public class ConectarConBD {
 
     public static void indicadorConexion() {
         if (sentencia == null) {
-            indicador = "NO HAY CONEXIÓN CON BD";
+            indicador = "NO HAY CONEXIÓN CON BDINSTITUTO";
         } else {
-            indicador = "CONECTADO CON BD";
+            indicador = "CONECTADO CON BDINSTITUTO";
         }
     }
 
     public static void conectarseInstitutoBD(Scanner input) {
-        byte op = 0;
-        do {
-            Menus.menuLogInReset();
-            op = ControlData.leerByte(input);
 
-            switch (op) {
-                case 1:
-                    System.out.println("CONECTARSE A BDINSTITUTO\n");
-                    pedirDatosConexion(input);
-                    conexionBD();
-                    break;
-                case 2:
-                    System.out.println("ELIMINAR TODOS LOS DATOS DE BDINSTITUTO\n");
-                    pedirDatosConexion(input);
-                    conexionBDEliminarReiniciar(input);
-                    break;
-                case 0:
-                    System.out.println("Volviendo al menú pirncipal...");
-                    break;
-                default:
-                    System.out.println("No ha introducido ninguna de las opciones.");
-                    break;
+        System.out.println("CONECTARSE A BDINSTITUTO\n");
 
-            }
-
-        } while (op != 0);
+        pedirDatosConexion(input);
+        conexionBD();
 
     }
 
     private static void pedirDatosConexion(Scanner input) {
 
-        System.out.println("Para conectarse a la base de datos BDINSTITUTO introduzca los datos que se piden a continuación.");
-        System.out.println("NOTA: El nombre de la base de datos que se pide para poder establecer la conexión será cualquiera que\nya tenga usted creada en su servidor (puede ser BDINSTITUTO en caso de ya tenerla creada en su servidor).\n");
-
+        //System.out.println("Para conectarse a la base de datos BDINSTITUTO introduzca los datos que se piden a continuación.");
+        //System.out.println("NOTA: El nombre de la base de datos que se pide para poder establecer la conexión será cualquiera que\nya tenga usted creada en su servidor (puede ser BDINSTITUTO en caso de ya tenerla creada en su servidor).\n");
         System.out.println("PUERTO:");
         puerto = ControlData.leerString(input);
-        System.out.println("NOMBRE BD:");
-        nombreBD = ControlData.leerString(input);
+        //System.out.println("NOMBRE BD:");
+        //nombreBD = ControlData.leerString(input);
         System.out.println("USUARIO:");
         usuario = ControlData.leerString(input);
         System.out.println("CONTRASEÑA:");
@@ -85,9 +63,12 @@ public class ConectarConBD {
         //Para usbwebserver
         //String driver= "com.mysql.cj.jdbc.Driver";   
         //String url= "jdbc:mysql://localhost:3307/Alumnos?user=root&password=usbw";
-        //Para my server de mysql en casa
+        //Para mi server de mysql en casa
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?user=" + usuario + "&password=" + password;
+        //String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?user=" + usuario + "&password=" + password;
+
+        //String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?useSSL=false&serverTimezone=UTC&user=" + usuario + "&password=" + password;
+        String url = "jdbc:mysql://localhost:" + puerto + "/?useSSL=false&serverTimezone=UTC&user=" + usuario + "&password=" + password;
 
         try {
             Class.forName(driver);
@@ -97,10 +78,10 @@ public class ConectarConBD {
         }
         try {
             Connection conexion = DriverManager.getConnection(url);
-            sentencia = conexion.createStatement();
-            System.out.println("\nSe ha establecido la conexión con la base de datos " + nombreBD+", la cual le da acceso a 'BDINSTITUTO'.");
+            System.out.println("\nCONEXIÓN CON MYSQL LISTA.");
+            sentencia = conexion.createStatement();     
         } catch (SQLException e) {
-            System.out.println(e+"No hay ningún Driver registrado que reconozca la URL especificada");
+            System.out.println(e + "No hay ningún Driver registrado que reconozca la URL especificada");
             System.exit(2);
         } catch (Exception e) {
             System.out.println("\n\t Se ha producido algún otro error.");
@@ -110,65 +91,7 @@ public class ConectarConBD {
         CrearTablas.crearTabla(sentencia);
         //CrearTablas.restriccionesDNI(sentencia);
         //CrearTablas.restriccionesCodigos(sentencia);
-        System.out.println("BASE DE DATOS 'BDINSTITUTO' LISTA");
-
-    }
-
-    public static void conexionBDEliminarReiniciar(Scanner input) {
-
-        //Declaracion de driver y url
-        //Para usbwebserver
-        //String driver= "com.mysql.cj.jdbc.Driver";   
-        //String url= "jdbc:mysql://localhost:3307/Alumnos?user=root&password=usbw";
-        //Para my server de mysql en casa
-        String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?user=" + usuario + "&password=" + password;
-
-        try {
-            Class.forName(driver);
-        } catch (ClassNotFoundException ex) {
-            System.out.println("No se encontro el driver" + driver);
-            System.exit(1);
-        }
-        try {
-            Connection conexion = DriverManager.getConnection(url);
-            sentencia = conexion.createStatement();
-            System.out.println("\nSe ha establecido la conexión con la base de datos " + nombreBD+", la cual le da acceso a 'BDINSTITUTO'.");
-        } catch (SQLException e) {
-            System.out.println("No hay ningún Driver registrado que reconozca la URL especificada");
-            System.exit(2);
-        } catch (Exception e) {
-            System.out.println("\n\t Se ha producido algún otro error.");
-            System.exit(3);
-        }
-
-        byte opb = 2;
-        do {
-            System.out.println("¿Está seguro que desea eliminar todos los datos de 'BDINSTITUTO'?");
-            System.out.println("1.-SI");
-            System.out.println("2.- NO");
-            opb = ControlData.leerByte(input);
-            switch (opb) {
-                case 1:
-                        try {
-                    sentencia.execute("DROP DATABASE IF EXISTS BDINSTITUTO");
-                    System.out.println("TODOS LOS DATOS DE 'BDINSTITUTO' HAN SIDO BORRADOS");
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                CrearTablas.crearTabla(sentencia);
-                //CrearTablas.restriccionesDNI(sentencia);
-                //CrearTablas.restriccionesCodigos(sentencia);
-                System.out.println("BASE DE DATOS 'BDINSTITUTO' REINICIADA Y LISTA");
-                break;
-                case 2:
-                    System.out.println("Volviendo al menú de conexión con BD...");
-                    break;
-                default:
-                    System.out.println("No ha introducido ninguna de las opciones.");
-                    break;
-            }
-        } while (opb != 2 && opb != 1);
+        System.out.println("BASE DE DATOS 'BDINSTITUTO' LISTA.");
 
     }
 

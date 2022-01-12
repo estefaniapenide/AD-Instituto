@@ -26,7 +26,7 @@ public class ControlData {
                 codigoValido = true;
             } else {
                 System.out.println("ERROR. El código debe cumplir el formato: 3 dígitos seguido de una letra mayúscula.");
-                //sc.next();
+                sc.nextLine();
                 codigoValido = false;
             }
         } while (!codigoValido);
@@ -83,7 +83,7 @@ public class ControlData {
             }
             if (!fechaValida) {
                 System.out.println("ERROR. No ha introducido una fecha válida.\nEscriba otra fecha. Formato: yyyy-mm-dd");
-                sc.next();
+                sc.nextLine();
             }
 
         } while (!fechaValida);
@@ -131,7 +131,7 @@ public class ControlData {
 
             if (!dniValido) {
                 System.out.println("ERROR. No ha introducido un DNI válido.");
-                sc.next();
+                sc.nextLine();
 
             }
         } while (!dniValido);

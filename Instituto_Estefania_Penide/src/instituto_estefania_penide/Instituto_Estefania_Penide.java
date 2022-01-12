@@ -65,6 +65,13 @@ public class Instituto_Estefania_Penide {
                     System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
+                case 6:
+                    if(baseDatosLista()){
+                        ResetDataBase.EliminarDatosBDInstituto(input);
+                    }else{
+                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+                    }
+                    break;
                 case 0:
                     System.out.println("PROGRAMA FINALIZADO");
                     break;

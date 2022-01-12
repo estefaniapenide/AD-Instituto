@@ -60,6 +60,7 @@ public class CrearTablas {
                     + "FOREIGN KEY (idal) references ALUMNOS(idal) ON DELETE CASCADE ON UPDATE CASCADE,"
                     + "FOREIGN KEY (idas) references ASIGNATURAS(idas) ON DELETE CASCADE ON UPDATE CASCADE)"
                     + "ENGINE INNODB;");
+            
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.exit(5);

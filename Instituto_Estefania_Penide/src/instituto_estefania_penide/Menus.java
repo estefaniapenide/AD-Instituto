@@ -17,27 +17,15 @@ public class Menus {
 
         System.out.println("---------------------------------------------------------------------------\n"
                 + "\t\t\tMENÚ PRINCIPAL ("+ConectarConBD.indicador+")\n"
-                + "1.-Creación/Conexión a BD\n"
+                + "1.-Creación/Conexión a BDInstituto\n"
                 + "2.-Altas\n"
                 + "3.-Bajas\n"
                 + "4.-Modificaciones\n"
                 + "5.-Listados/Consultas\n\n"
+                + "6.-Eliminar todos los datos (reset database)\n\n"
                 + "0.-SALIR\n"
                 + "---------------------------------------------------------------------------");
 
-    }
-    
-    public static void menuLogInReset(){
-        
-        ConectarConBD.indicadorConexion();
-        
-    System.out.println("---------------------------------------------------------------------------\n"
-                + "\t\t\tBASE DE DATOS INSTITUTO ("+ConectarConBD.indicador+")\n\n"
-                + "1.-Conectarse a INSTITUTODB\n"
-                + "2.-Conectarse a INSTITUTODB e reiniciarla eliminado todos sus datos.\n\n"
-                + "0.-SALIR\n"
-                + "---------------------------------------------------------------------------");
-    
     }
     
     public static void menuAltas(){
