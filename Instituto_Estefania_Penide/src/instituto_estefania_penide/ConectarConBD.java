@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package instituto_estefania_penide;
 
 import controldata.ControlData;
@@ -45,8 +42,6 @@ public class ConectarConBD {
 
     private static void pedirDatosConexion(Scanner input) {
 
-        //System.out.println("Para conectarse a la base de datos BDINSTITUTO introduzca los datos que se piden a continuación.");
-        //System.out.println("NOTA: El nombre de la base de datos que se pide para poder establecer la conexión será cualquiera que\nya tenga usted creada en su servidor (puede ser BDINSTITUTO en caso de ya tenerla creada en su servidor).\n");
         System.out.println("PUERTO:");
         puerto = ControlData.leerString(input);
         //System.out.println("NOMBRE BD:");
@@ -60,13 +55,16 @@ public class ConectarConBD {
     private static void conexionBD() {
 
         //Declaracion de driver y url
+        
         //Para usbwebserver
         //String driver= "com.mysql.cj.jdbc.Driver";   
         //String url= "jdbc:mysql://localhost:3307/Alumnos?user=root&password=usbw";
+        
         //Para mi server de mysql en casa
+        //String driver = "com.mysql.cj.jdbc.Driver";
+        //String url = "jdbc:mysql://localhost:3306/Alumnos?user=root&password=1234";
+        
         String driver = "com.mysql.cj.jdbc.Driver";
-        //String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?user=" + usuario + "&password=" + password;
-
         //String url = "jdbc:mysql://localhost:" + puerto + "/" + nombreBD + "?useSSL=false&serverTimezone=UTC&user=" + usuario + "&password=" + password;
         String url = "jdbc:mysql://localhost:" + puerto + "/?useSSL=false&serverTimezone=UTC&user=" + usuario + "&password=" + password;
 
@@ -89,6 +87,7 @@ public class ConectarConBD {
         }
 
         CrearTablas.crearTabla(sentencia);
+        //NO USAR:
         //CrearTablas.restriccionesDNI(sentencia);
         //CrearTablas.restriccionesCodigos(sentencia);
         System.out.println("BASE DE DATOS 'BDINSTITUTO' LISTA.");

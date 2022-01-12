@@ -41,7 +41,7 @@ public class CrearTablas {
                     + "PRIMARY KEY (idas))"
                     + "ENGINE INNODB;");
             //sentencia.execute("DROP TABLE IF EXISTS ALUMNOSASIGNATURASPROFESORES");
-            sentencia.execute("CREATE TABLE IF NOT EXISTS ALUMNOSASIGNATURASPROFESORES" //ver las otrs restricciones del enunciado
+            sentencia.execute("CREATE TABLE IF NOT EXISTS ALUMNOSASIGNATURASPROFESORES" 
                     + "(idal INT(4) ZEROFILL NOT NULL,"
                     + "idas INT(4) ZEROFILL NOT NULL,"
                     + "dni_profesor CHAR(10) NOT NULL,"
@@ -51,7 +51,7 @@ public class CrearTablas {
                     + "FOREIGN KEY (idas) references ASIGNATURAS(idas) ON DELETE CASCADE ON UPDATE CASCADE)"
                     + "ENGINE INNODB;");
             //sentencia.execute("DROP TABLE IF EXISTS NOTAS");
-            sentencia.execute("CREATE TABLE IF NOT EXISTS NOTAS" //ver ls otras restricciones del enunciado
+            sentencia.execute("CREATE TABLE IF NOT EXISTS NOTAS" 
                     + "(idal INT(4) ZEROFILL NOT NULL,"
                     + "idas INT(4) ZEROFILL NOT NULL,"
                     + "fecha DATE NOT NULL,"
@@ -67,7 +67,13 @@ public class CrearTablas {
 
         }
     }
-
+    
+    
+    
+    //Pruebas de restriciones con funciones, procedimientos y triggers en SQL. Problemas de sintaxis pendientes de resolver y falta controlar
+    //la declaración y uso de las excepciones y warnings.
+    
+    
     public static void restriccionesDNI(Statement sentencia) {
 
         try {
