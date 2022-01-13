@@ -14,12 +14,12 @@ import java.util.List;
 public class NotaVista {
     
         public void verNota(Nota nota) {
-        System.out.println("Datos de la nota: " + nota);
+        System.out.println("Datos de la NOTA:\n" + nota);
     }
 
     public void verNotas(List<Nota> notas) {
         for (Nota nota : notas) {
-            System.out.println("Datos de la nota: " + nota);
+            System.out.println("Datos de la NOTA:\n" + nota);
         }
     }
     

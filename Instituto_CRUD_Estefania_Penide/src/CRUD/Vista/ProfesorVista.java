@@ -14,12 +14,12 @@ import java.util.List;
 public class ProfesorVista {
     
     public void verProfesor(Profesor profesor) {
-        System.out.println("Datos del profesor: " + profesor);
+        System.out.println("Datos del PROFESOR:\n" + profesor);
     }
 
     public void verProfesores(List<Profesor> profesores) {
         for (Profesor profesor : profesores) {
-            System.out.println("Datos del profesor: " + profesor);
+            System.out.println("Datos del PROFESOR:\n" + profesor);
         }
     }
 }

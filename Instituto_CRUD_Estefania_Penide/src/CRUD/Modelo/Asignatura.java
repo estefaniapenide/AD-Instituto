@@ -16,9 +16,8 @@ public class Asignatura {
     private String codigo_asignatura;
     private String nombre_ciclo;
 
-    private Profesor profesor;
-    private ArrayList<Alumno> alumnos;
-
+//    private Profesor profesor;
+//    private ArrayList<Alumno> alumnos;
     public Asignatura() {
 
     }
@@ -71,31 +70,40 @@ public class Asignatura {
         this.nombre_ciclo = nombre_ciclo;
     }
 
-    /**
-     * @return the profesor
-     */
-    public Profesor getProfesor() {
-        return profesor;
-    }
+//    /**
+//     * @return the profesor
+//     */
+//    public Profesor getProfesor() {
+//        return profesor;
+//    }
+//
+//    /**
+//     * @param profesor the profesor to set
+//     */
+//    public void setProfesor(Profesor profesor) {
+//        this.profesor = profesor;
+//    }
+//
+//    /**
+//     * @return the alumnos
+//     */
+//    public ArrayList<Alumno> getAlumnos() {
+//        return alumnos;
+//    }
+//
+//    /**
+//     * @param alumnos the alumnos to set
+//     */
+//    public void setAlumnos(ArrayList<Alumno> alumnos) {
+//        this.alumnos = alumnos;
+//    }
+    @Override
+    public String toString() {
+        String asignatura
+                = "\tIdas: " + idas + "\n"
+                + "\tCódigo_asignatura: " + codigo_asignatura + "\n"
+                + "\tNombre: " + nombre_ciclo;
 
-    /**
-     * @param profesor the profesor to set
-     */
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
-    /**
-     * @return the alumnos
-     */
-    public ArrayList<Alumno> getAlumnos() {
-        return alumnos;
-    }
-
-    /**
-     * @param alumnos the alumnos to set
-     */
-    public void setAlumnos(ArrayList<Alumno> alumnos) {
-        this.alumnos = alumnos;
+        return asignatura;
     }
 }

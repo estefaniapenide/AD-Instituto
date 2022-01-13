@@ -15,7 +15,9 @@ public interface IProfesorDao {
 
     public boolean registrar(Profesor profesor);
 
-    public List<Profesor> obtener();
+    public List<Profesor> obtenerTodos();
+    
+    public Profesor obtener(Profesor profesor);
 
     public boolean actualizar(Profesor profesor);
 

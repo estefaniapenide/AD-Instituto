@@ -20,8 +20,8 @@ import java.util.List;
  *
  * @author Estefania
  */
-public class NotaDaoImpl implements INotaDao{
-    
+public class NotaDaoImpl implements INotaDao {
+
     @Override
     public boolean registrar(Nota nota) {
         boolean registrar = false;
@@ -29,11 +29,12 @@ public class NotaDaoImpl implements INotaDao{
         Statement sentencia = null;
         Connection conexion = null;
 
-        String sql = "INSERT INTO NOTAS (idal, idas, fecha, nota) VALUES (" + nota.getAlumno().getIdal() + "," + nota.getAsignatura().getIdas() + ",'" + nota.getFecha() + "',"+nota.getNota()+")";
+        String sql = "INSERT INTO NOTAS (idal, idas, fecha, nota) VALUES (" + nota.getAlumno().getIdal() + "," + nota.getAsignatura().getIdas() + ",'" + nota.getFecha() + "'," + nota.getNota() + ")";
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             sentencia.execute(sql);
             registrar = true;
             sentencia.close();
@@ -46,7 +47,7 @@ public class NotaDaoImpl implements INotaDao{
     }
 
     @Override
-    public List<Nota> obtener() {
+    public List<Nota> obtenerTodos() {
         Connection conexion = null;
         Statement sentencia = null;
         ResultSet rstAux = null;
@@ -56,14 +57,15 @@ public class NotaDaoImpl implements INotaDao{
         List<Nota> listaNotas = new ArrayList<Nota>();
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             rstAux = sentencia.executeQuery(sql);
             while (rstAux.next()) {
                 Nota n = new Nota();
                 Alumno a = new Alumno();
                 Asignatura ag = new Asignatura();
-                
+
                 //n.setAlumno(new Alumno().setIdal(rstAux.getInt(1)));//Lo intenté así pero no se puede
                 n.setAlumno(a);
                 a.setIdal(rstAux.getInt(1));
@@ -77,51 +79,55 @@ public class NotaDaoImpl implements INotaDao{
             rstAux.close();
             conexion.close();
         } catch (SQLException e) {
-            System.out.println("Error: Clase NotasDaoImple, método obtener");
+            System.out.println("Error: Clase NotasDaoImple, método obtenerTodos");
             e.printStackTrace();
         }
 
         return listaNotas;
     }
     
-    @Override
-	public boolean actualizar(Nota nota) {
-		Connection conexion= null;
-		Statement sentencia= null;
-		
-		boolean actualizar=false;
-				
-		String sql="UPDATE NOTAS SET nota="+nota.getNota()+" WHERE idal="+nota.getAlumno().getIdal()+" AND idas="+nota.getAsignatura().getIdas()+" AND fecha='"+nota.getFecha()+"'";
-		try {
-			conexion=Conexion.conexionBD();
-			sentencia=conexion.createStatement();
-			sentencia.execute(sql);
-			actualizar=true;
-		} catch (SQLException e) {
-			System.out.println("Error: Clase NotaDaoImple, método actualizar");
-			e.printStackTrace();
-		}		
-		return actualizar;
-	}
         
-        @Override
-	public boolean eliminar(Nota nota) {
-		Connection conexion= null;
-		Statement sentencia= null;
-		
-		boolean eliminar=false;
-				
-		String sql="DELETE FROM NOTAS WHERE idal="+nota.getAlumno().getIdal()+" AND idas="+nota.getAsignatura().getIdas()+" AND fecha='"+nota.getFecha()+"'";
-		try {
-			conexion=Conexion.conexionBD();
-			sentencia=conexion.createStatement();
-			sentencia.execute(sql);
-			eliminar=true;
-		} catch (SQLException e) {
-			System.out.println("Error: Clase NotaDaoImple, método eliminar");
-			e.printStackTrace();
-		}		
-		return eliminar;
-	}
-    
+
+    @Override
+    public boolean actualizar(Nota nota) {
+        Connection conexion = null;
+        Statement sentencia = null;
+
+        boolean actualizar = false;
+
+        String sql = "UPDATE NOTAS SET nota=" + nota.getNota() + " WHERE idal=" + nota.getAlumno().getIdal() + " AND idas=" + nota.getAsignatura().getIdas() + " AND fecha='" + nota.getFecha() + "'";
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            sentencia.execute(sql);
+            actualizar = true;
+        } catch (SQLException e) {
+            System.out.println("Error: Clase NotaDaoImple, método actualizar");
+            e.printStackTrace();
+        }
+        return actualizar;
+    }
+
+    @Override
+    public boolean eliminar(Nota nota) {
+        Connection conexion = null;
+        Statement sentencia = null;
+
+        boolean eliminar = false;
+
+        String sql = "DELETE FROM NOTAS WHERE idal=" + nota.getAlumno().getIdal() + " AND idas=" + nota.getAsignatura().getIdas() + " AND fecha='" + nota.getFecha() + "'";
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            sentencia.execute(sql);
+            eliminar = true;
+        } catch (SQLException e) {
+            System.out.println("Error: Clase NotaDaoImple, método eliminar");
+            e.printStackTrace();
+        }
+        return eliminar;
+    }
+
 }

@@ -14,12 +14,12 @@ import java.util.List;
 public class AlumnoVista {
 
     public void verAlumno(Alumno alumno) {
-        System.out.println("Datos del alumno " + alumno);
+        System.out.println("Datos del ALUMNO:\n" + alumno);
     }
 
     public void verAlumnos(List<Alumno> alumnos) {
         for (Alumno alumno : alumnos) {
-            System.out.println("Datos dell alumno: " + alumno);
+            System.out.println("Datos del ALUMNO:\n" + alumno);
         }
     }
 

@@ -1,4 +1,3 @@
-
 package CRUD.Controlador;
 
 import CRUD.DaoImpl.ProfesorDaoImpl;
@@ -15,7 +14,7 @@ import java.util.List;
 public class ProfesorControlador {
     
     private ProfesorVista vista = new ProfesorVista();
-
+    
     public ProfesorControlador() {
     }
 
@@ -36,12 +35,20 @@ public class ProfesorControlador {
         IProfesorDao dao = new ProfesorDaoImpl();
         dao.eliminar(profesor);
     }
+    
+    //llama al DAO para obtener un profesor a partir de su dni
+    public void ver(Profesor profesor) {
+        Profesor prof = new Profesor();
+        IProfesorDao dao = new ProfesorDaoImpl();
+        prof = dao.obtener(profesor);
+        vista.verProfesor(prof);
+    }
 
     //llama al DAO para obtener todos los profesores y luego los muestra en la vista
     public void verProfesores() {
         List<Profesor> profesores = new ArrayList<Profesor>();
         IProfesorDao dao = new ProfesorDaoImpl();
-        profesores = dao.obtener();
+        profesores = dao.obtenerTodos();
         vista.verProfesores(profesores);
     }
     

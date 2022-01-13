@@ -5,7 +5,11 @@
  */
 package instituto_crud_estefania_penide;
 
+import CRUD.Conexion.Conexion;
+import static CRUD.Conexion.Conexion.conexionBDInstituto;
+import CRUD.Controlador.AlumnoControlador;
 import controldata.ControlData;
+import static instituto_crud_estefania_penide.ConectarConBD.sentencia;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,51 +29,30 @@ public class Instituto_Estefania_Penide {
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
-
-        byte op = 0;
-        do {
-
+        
+        byte op=0;
+        do{
             Menus.menuPrincipal();
-            op = ControlData.leerByte(input);
-
-            switch (op) {
+            op=ControlData.leerByte(input);
+            
+            switch(op){
                 case 1:
-                    ConectarConBD.conectarseInstitutoBD(input);
+                    Conexion.conectarseInstitutoBD(input);
                     break;
                 case 2:
-                    if(baseDatosLista()){
+                    if(baseDatosConectada()){
                     Altas.altas(input, ConectarConBD.sentencia);
                     }else{
                     System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
                     }
                     break;
                 case 3:
-                    if(baseDatosLista()){
-                    Bajas.bajas(input, ConectarConBD.sentencia);
-                    }else{
-                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
-                    }
                     break;
                 case 4:
-                    if(baseDatosLista()){
-                    Modificaciones.notaAlumno(input, ConectarConBD.sentencia);
-                    }else{
-                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
-                    }
                     break;
                 case 5:
-                    if(baseDatosLista()){
-                    Listados.consultas(input, ConectarConBD.sentencia);
-                    }else{
-                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
-                    }
                     break;
                 case 6:
-                    if(baseDatosLista()){
-                        ResetDataBase.EliminarDatosBDInstituto(input);
-                    }else{
-                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
-                    }
                     break;
                 case 0:
                     System.out.println("PROGRAMA FINALIZADO");
@@ -77,20 +60,85 @@ public class Instituto_Estefania_Penide {
                 default:
                     System.out.println("El valor introducido no se corresponde con ninguna de las opciones.\n");
                     break;
-            }
+        }
+        
+        }while(op!=0);
+        
+        
+        
+        
+       // AlumnoControlador alumCont = new AlumnoControlador();
+        
+       // alumCont.registrar(alumno);
+        
+        
+        
 
-        } while (op != 0);
+//        byte op = 0;
+//        do {
+//
+//            Menus.menuPrincipal();
+//            op = ControlData.leerByte(input);
+//
+//            switch (op) {
+//                case 1:
+//                    ConectarConBD.conectarseInstitutoBD(input);
+//                    break;
+//                case 2:
+//                    if(baseDatosConectada()){
+//                    Altas.altas(input, ConectarConBD.sentencia);
+//                    }else{
+//                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+//                    }
+//                    break;
+//                case 3:
+//                    if(baseDatosConectada()){
+//                    Bajas.bajas(input, ConectarConBD.sentencia);
+//                    }else{
+//                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+//                    }
+//                    break;
+//                case 4:
+//                    if(baseDatosConectada()){
+//                    Modificaciones.notaAlumno(input, ConectarConBD.sentencia);
+//                    }else{
+//                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+//                    }
+//                    break;
+//                case 5:
+//                    if(baseDatosConectada()){
+//                    Listados.consultas(input, ConectarConBD.sentencia);
+//                    }else{
+//                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+//                    }
+//                    break;
+//                case 6:
+//                    if(baseDatosConectada()){
+//                        ResetDataBase.EliminarDatosBDInstituto(input);
+//                    }else{
+//                    System.out.println("ERROR. NO se ha CONECTADO a ninguna base de datos.\nPrimero debe seleccionar en MENÚ PRINCIPAL la OPCIÓN 1 de 'Creación/Conexión a BD'");
+//                    }
+//                    break;
+//                case 0:
+//                    System.out.println("PROGRAMA FINALIZADO");
+//                    break;
+//                default:
+//                    System.out.println("El valor introducido no se corresponde con ninguna de las opciones.\n");
+//                    break;
+//            }
+//
+//        } while (op != 0);
 
         input.close();
 
     }
 
-    public static boolean baseDatosLista() {
+    public static boolean baseDatosConectada() {
         boolean lista = false;
-        if (ConectarConBD.sentencia == null) {
-            lista = false;
-        } else {
+        if (conexionBDInstituto) {
             lista = true;
+        } else {
+            lista = false;
         }
         return lista;
 

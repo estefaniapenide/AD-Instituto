@@ -4,6 +4,8 @@
  */
 package instituto_crud_estefania_penide;
 
+import CRUD.Conexion.Conexion;
+
 /**
  *
  * @author Estefania
@@ -16,7 +18,7 @@ public class Menus {
         ConectarConBD.indicadorConexion();
 
         System.out.println("---------------------------------------------------------------------------\n"
-                + "\t\t\tMENÚ PRINCIPAL ("+ConectarConBD.indicador+")\n"
+                + "\t\t\tMENÚ PRINCIPAL ("+Conexion.indicadorConexion()+")\n"
                 + "1.-Creación/Conexión a BD\n"
                 + "2.-Altas\n"
                 + "3.-Bajas\n"

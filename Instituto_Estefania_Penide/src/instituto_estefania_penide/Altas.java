@@ -68,6 +68,7 @@ public class Altas {
             String nombre = ControlData.leerString(input);
             System.out.println("Introduzca la TITULACIÓN del profesor:");
             String titulacion = ControlData.leerString(input);
+            
             sentencia.executeUpdate("INSERT INTO PROFESORES (dni, nombre, titulacion) VALUES ('" + dni + "','" + nombre + "','" + titulacion + "')");
             System.out.println("\nPROFESOR AÑADIDO");
 

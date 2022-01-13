@@ -1,4 +1,3 @@
-
 package CRUD.Controlador;
 
 import CRUD.DaoImpl.NotaDaoImpl;
@@ -13,7 +12,7 @@ import java.util.List;
  * @author Estefania
  */
 public class NotaControlador {
-    
+
     private NotaVista vista = new NotaVista();
 
     public NotaControlador() {
@@ -36,13 +35,14 @@ public class NotaControlador {
         INotaDao dao = new NotaDaoImpl();
         dao.eliminar(nota);
     }
+    
 
     //llama al DAO para obtener todas las notas y luego los muestra en la vista
     public void verNotas() {
         List<Nota> notas = new ArrayList<Nota>();
         INotaDao dao = new NotaDaoImpl();
-        notas = dao.obtener();
+        notas = dao.obtenerTodos();
         vista.verNotas(notas);
     }
-    
+
 }

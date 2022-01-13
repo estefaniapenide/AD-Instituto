@@ -15,7 +15,9 @@ public interface IAsignaturaDao {
 
     public boolean registrar(Asignatura asignatura);
 
-    public List<Asignatura> obtener();
+    public List<Asignatura> obtenerTodos();
+    
+    public Asignatura obtener(Asignatura asignatura);
 
     public boolean actualizar(Asignatura asignatura);
 

@@ -14,12 +14,12 @@ import java.util.List;
 public class AsignaturaVista {
 
     public void verAsignatura(Asignatura asignatura) {
-        System.out.println("Datos de la asignatura: " + asignatura);
+        System.out.println("Datos de la ASIGNATURA:\n" + asignatura);
     }
 
     public void verAsignaturas(List<Asignatura> asignaturas) {
         for (Asignatura asignatura : asignaturas) {
-            System.out.println("Datos de la asignatura: " + asignatura);
+            System.out.println("Datos de la ASIGNATURA:\n" + asignatura);
         }
     }
 

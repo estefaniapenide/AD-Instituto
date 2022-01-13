@@ -39,12 +39,20 @@ public class AsignaturaControlador {
         IAsignaturaDao dao = new AsignaturaDaoImpl();
         dao.eliminar(asignatura);
     }
+    
+    //llama al DAO para obtener una asignatura a partir de su código de asignatura
+        public void ver(Asignatura asignatura) {
+        Asignatura asig = new Asignatura();
+        IAsignaturaDao dao = new AsignaturaDaoImpl();
+        asig = dao.obtener(asignatura);
+        vista.verAsignatura(asig);
+    }
 
     //llama al DAO para obtener todas las asignaturas y luego los muestra en la vista
     public void verAsignaturas() {
         List<Asignatura> asignaturas = new ArrayList<Asignatura>();
         IAsignaturaDao dao = new AsignaturaDaoImpl();
-        asignaturas = dao.obtener();
+        asignaturas = dao.obtenerTodos();
         vista.verAsignaturas(asignaturas);
     }
 

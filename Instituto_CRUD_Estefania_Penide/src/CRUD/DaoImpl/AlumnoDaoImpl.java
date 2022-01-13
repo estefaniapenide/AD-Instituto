@@ -30,8 +30,9 @@ public class AlumnoDaoImpl implements IAlumnoDao {
         String sql = "INSERT INTO ALUMNOS (idal, codigo_alumno, nombre) VALUES (" + alumno.getIdal() + ",'" + alumno.getCodigo_alumno() + "','" + alumno.getNombre() + "')";
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             sentencia.execute(sql);
             registrar = true;
             sentencia.close();
@@ -44,7 +45,7 @@ public class AlumnoDaoImpl implements IAlumnoDao {
     }
 
     @Override
-    public List<Alumno> obtener() {
+    public List<Alumno> obtenerTodos() {
         Connection conexion = null;
         Statement sentencia = null;
         ResultSet rstAux = null;
@@ -54,8 +55,9 @@ public class AlumnoDaoImpl implements IAlumnoDao {
         List<Alumno> listaAlumnos = new ArrayList<Alumno>();
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             rstAux = sentencia.executeQuery(sql);
             while (rstAux.next()) {
                 Alumno a = new Alumno();
@@ -68,51 +70,84 @@ public class AlumnoDaoImpl implements IAlumnoDao {
             rstAux.close();
             conexion.close();
         } catch (SQLException e) {
-            System.out.println("Error: Clase AlumnoDaoImple, método obtener");
+            System.out.println("Error: Clase AlumnoDaoImple, método obtenerTodos");
             e.printStackTrace();
         }
 
         return listaAlumnos;
     }
-    
+
     @Override
-	public boolean actualizar(Alumno alumno) {
-		Connection conexion= null;
-		Statement sentencia= null;
-		
-		boolean actualizar=false;
-				
-		String sql="UPDATE ALUMNOS SET codigo_alumno='"+alumno.getCodigo_alumno()+"', nombre='"+alumno.getNombre()+"' WHERE idal="+alumno.getIdal();
-		try {
-			conexion=Conexion.conexionBD();
-			sentencia=conexion.createStatement();
-			sentencia.execute(sql);
-			actualizar=true;
-		} catch (SQLException e) {
-			System.out.println("Error: Clase AlumnoDaoImple, método actualizar");
-			e.printStackTrace();
-		}		
-		return actualizar;
-	}
-        
-        @Override
-	public boolean eliminar(Alumno alumno) {
-		Connection conexion= null;
-		Statement sentencia= null;
-		
-		boolean eliminar=false;
-				
-		String sql="DELETE FROM ALUMNOS WHERE idal="+alumno.getIdal();
-		try {
-			conexion=Conexion.conexionBD();
-			sentencia=conexion.createStatement();
-			sentencia.execute(sql);
-			eliminar=true;
-		} catch (SQLException e) {
-			System.out.println("Error: Clase AlumnoDaoImple, método eliminar");
-			e.printStackTrace();
-		}		
-		return eliminar;
-	}
+    public Alumno obtener(Alumno alumno) {
+        Connection conexion = null;
+        Statement sentencia = null;
+        ResultSet rstAux = null;
+
+        Alumno a = new Alumno();
+
+        String sql = "SELECT * FROM ALUMNOS WHERE codigo_alumno='" + alumno.getCodigo_alumno() + "';";
+
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            rstAux = sentencia.executeQuery(sql);
+            while (rstAux.next()) {
+                a.setIdal(rstAux.getInt(1));
+                a.setCodigo_alumno(rstAux.getString(2));
+                a.setNombre(rstAux.getString(3));
+            }
+            sentencia.close();
+            rstAux.close();
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase AlumnoDaoImple, método obtener");
+            e.printStackTrace();
+        }
+
+        return a;
+    }
+
+    @Override
+    public boolean actualizar(Alumno alumno) {
+        Connection conexion = null;
+        Statement sentencia = null;
+
+        boolean actualizar = false;
+
+        String sql = "UPDATE ALUMNOS SET codigo_alumno='" + alumno.getCodigo_alumno() + "', nombre='" + alumno.getNombre() + "' WHERE idal=" + alumno.getIdal();
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            sentencia.execute(sql);
+            actualizar = true;
+        } catch (SQLException e) {
+            System.out.println("Error: Clase AlumnoDaoImple, método actualizar");
+            e.printStackTrace();
+        }
+        return actualizar;
+    }
+
+    @Override
+    public boolean eliminar(Alumno alumno) {
+        Connection conexion = null;
+        Statement sentencia = null;
+
+        boolean eliminar = false;
+
+        String sql = "DELETE FROM ALUMNOS WHERE idal=" + alumno.getIdal();
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            sentencia.execute(sql);
+            eliminar = true;
+        } catch (SQLException e) {
+            System.out.println("Error: Clase AlumnoDaoImple, método eliminar");
+            e.printStackTrace();
+        }
+        return eliminar;
+    }
 
 }

@@ -30,8 +30,9 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
         String sql = "INSERT INTO ASIGNATURAS (idas, codigo_asignatura, nombre_ciclo) VALUES (" + asignatura.getIdas() + ",'" + asignatura.getCodigo_asignatura() + "','" + asignatura.getNombre_ciclo() + "')";
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             sentencia.execute(sql);
             registrar = true;
             sentencia.close();
@@ -44,7 +45,7 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
     }
 
     @Override
-    public List<Asignatura> obtener() {
+    public List<Asignatura> obtenerTodos() {
         Connection conexion = null;
         Statement sentencia = null;
         ResultSet rstAux = null;
@@ -54,8 +55,9 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
         List<Asignatura> listaAsignaturas = new ArrayList<Asignatura>();
 
         try {
-            conexion = Conexion.conexionBD();
+            conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
             rstAux = sentencia.executeQuery(sql);
             while (rstAux.next()) {
                 Asignatura a = new Asignatura();
@@ -68,11 +70,42 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
             rstAux.close();
             conexion.close();
         } catch (SQLException e) {
-            System.out.println("Error: Clase AsignaturaDaoImple, método obtener");
+            System.out.println("Error: Clase AsignaturaDaoImple, método obtenerTodos");
             e.printStackTrace();
         }
 
         return listaAsignaturas;
+    }
+    
+    @Override
+    public Asignatura obtener(Asignatura asignatura){
+    Connection conexion = null;
+        Statement sentencia = null;
+        ResultSet rstAux = null;
+        
+        Asignatura asig = new Asignatura();
+
+        String sql = "SELECT * FROM ASIGNATURAS WHERE codigo_asignatura='"+asignatura.getCodigo_asignatura()+"';";
+        
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            rstAux = sentencia.executeQuery(sql);
+            while (rstAux.next()) {
+                asig.setIdas(rstAux.getInt(1));
+                asig.setCodigo_asignatura(rstAux.getString(2));
+                asig.setNombre_ciclo(rstAux.getString(3));
+            }
+            sentencia.close();
+            rstAux.close();
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase AsignaturaDaoImple, método obtener");
+            e.printStackTrace();
+        }
+        
+        return asig;
     }
     
     @Override
@@ -84,8 +117,9 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
 				
 		String sql="UPDATE ASIGNATURAS SET codigo_asignatura='"+asignatura.getCodigo_asignatura()+"', nombre_ciclo='"+asignatura.getNombre_ciclo()+"' WHERE idas="+asignatura.getIdas();
 		try {
-			conexion=Conexion.conexionBD();
+			conexion=Conexion.conexionMySQL();
 			sentencia=conexion.createStatement();
+                        sentencia.execute("USE BDINSTITUTO");
 			sentencia.execute(sql);
 			actualizar=true;
 		} catch (SQLException e) {
@@ -104,8 +138,9 @@ public class AsignaturaDaoImpl implements IAsignaturaDao{
 				
 		String sql="DELETE FROM ASIGNATURAS WHERE idas="+asignatura.getIdas();
 		try {
-			conexion=Conexion.conexionBD();
+			conexion=Conexion.conexionMySQL();
 			sentencia=conexion.createStatement();
+                        sentencia.execute("USE BDINSTITUTO");
 			sentencia.execute(sql);
 			eliminar=true;
 		} catch (SQLException e) {

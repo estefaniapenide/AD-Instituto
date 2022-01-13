@@ -84,7 +84,7 @@ public class ConectarConBD {
             System.out.println("\nCONEXIÓN CON MYSQL LISTA.");
             sentencia = conexion.createStatement();
         } catch (SQLException e) {
-            System.out.println(e + "No hay ningún Driver registrado que reconozca la URL especificada");
+            System.out.println("No hay ningún Driver registrado que reconozca la URL especificada");
             System.exit(2);
         } catch (Exception e) {
             System.out.println("\n\t Se ha producido algún otro error.");

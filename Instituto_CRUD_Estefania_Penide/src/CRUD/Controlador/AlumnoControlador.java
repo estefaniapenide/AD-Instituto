@@ -39,12 +39,20 @@ public class AlumnoControlador {
         IAlumnoDao dao = new AlumnoDaoImpl();
         dao.eliminar(alumno);
     }
+    
+    //llama al DAO para obtener un alumno a partir de su código de alumno
+    public void ver(Alumno alumno) {
+        Alumno a = new Alumno();
+        IAlumnoDao dao = new AlumnoDaoImpl();
+        a = dao.obtener(alumno);
+        vista.verAlumno(a);
+    }
 
     //llama al DAO para obtener todos los alumnos y luego los muestra en la vista
     public void verAlumnos() {
         List<Alumno> alumnos = new ArrayList<Alumno>();
         IAlumnoDao dao = new AlumnoDaoImpl();
-        alumnos = dao.obtener();
+        alumnos = dao.obtenerTodos();
         vista.verAlumnos(alumnos);
     }
 

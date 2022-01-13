@@ -2,6 +2,7 @@
 package instituto_estefania_penide;
 
 import controldata.ControlData;
+import static instituto_estefania_penide.ConectarConBD.indicador;
 import static instituto_estefania_penide.ConectarConBD.sentencia;
 import java.sql.SQLException;
 import java.util.Scanner;

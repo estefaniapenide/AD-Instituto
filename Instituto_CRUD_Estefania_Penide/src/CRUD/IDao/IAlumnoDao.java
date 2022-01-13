@@ -15,7 +15,9 @@ public interface IAlumnoDao {
 
     public boolean registrar(Alumno alumno);
 
-    public List<Alumno> obtener();
+    public List<Alumno> obtenerTodos();
+    
+    public Alumno obtener(Alumno alumno);
 
     public boolean actualizar(Alumno alumno);
 

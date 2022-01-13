@@ -4,6 +4,8 @@
  */
 package instituto_crud_estefania_penide;
 
+import CRUD.Controlador.ProfesorControlador;
+import CRUD.Modelo.Profesor;
 import controldata.ControlData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +31,7 @@ public class Altas {
 
                 switch (op) {
                     case 1:
-                        profesores(input, sentencia);
+                        profesores(input);
                         break;
                     case 2:
                         alumnos(input, sentencia);
@@ -59,10 +61,10 @@ public class Altas {
 
     }
 
-    private static void profesores(Scanner input, Statement sentencia) throws SQLException {
+    private static void profesores(Scanner input) {
 
         String dni = null;
-        try {
+        
 
             System.out.println("NUEVO PROFESOR");
             System.out.println("Introduzca el DNI del profesor:");
@@ -71,21 +73,17 @@ public class Altas {
             String nombre = ControlData.leerString(input);
             System.out.println("Introduzca la TITULACIÓN del profesor:");
             String titulacion = ControlData.leerString(input);
-            sentencia.executeUpdate("INSERT INTO PROFESORES (dni, nombre, titulacion) VALUES ('" + dni + "','" + nombre + "','" + titulacion + "')");
-            System.out.println("\nPROFESOR AÑADIDO");
+            
+            Profesor profesor = new Profesor(dni,nombre,titulacion);
+            
+            ProfesorControlador profCont = new ProfesorControlador();
+            profCont.registrar(profesor);
+            
+             profCont.ver(profesor);
+            //sentencia.executeUpdate("INSERT INTO PROFESORES (dni, nombre, titulacion) VALUES ('" + dni + "','" + nombre + "','" + titulacion + "')");
+            //System.out.println("\nPROFESOR AÑADIDO");
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("\nERROR. No se puede registar el DNI " + dni + ".\nEl dni que intenta introducir YA EXISTE en la tabla PROFESORES.");
-        } finally {
-            ResultSet rstAux = sentencia.executeQuery("SELECT * FROM PROFESORES WHERE dni = '" + dni + "'");
-            while (rstAux.next()) {
-                System.out.println("\nLos DATOS del PROFESOR son:");
-                System.out.println("\tDNI: " + rstAux.getString("dni"));
-                System.out.println("\tNombre: " + rstAux.getString("nombre"));
-                System.out.println("\tTitulación: " + rstAux.getString("titulacion"));
-            }
-            rstAux.close();
-        }
+        
     }
 
     private static void alumnos(Scanner input, Statement sentencia) throws SQLException {
