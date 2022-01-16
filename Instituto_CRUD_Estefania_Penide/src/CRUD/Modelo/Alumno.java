@@ -21,6 +21,15 @@ public class Alumno {
 
     }
 
+    public Alumno(String codigo_alumno) {
+        this.codigo_alumno = codigo_alumno;
+    }
+
+    public Alumno(String codigo_alumno, String nombre) {
+        this.codigo_alumno = codigo_alumno;
+        this.nombre = nombre;
+    }
+
     public Alumno(int idal, String codigo_alumno, String nombre) {
         this.idal = idal;
         this.codigo_alumno = codigo_alumno;

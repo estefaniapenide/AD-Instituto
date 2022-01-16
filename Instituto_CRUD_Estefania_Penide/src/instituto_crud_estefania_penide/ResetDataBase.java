@@ -4,9 +4,11 @@
  */
 package instituto_crud_estefania_penide;
 
+import CRUD.Conexion.Conexion;
 import controldata.ControlData;
-import static instituto_crud_estefania_penide.ConectarConBD.sentencia;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 /**
@@ -16,6 +18,9 @@ import java.util.Scanner;
 public class ResetDataBase {
 
     public static void EliminarDatosBDInstituto(Scanner input) {
+
+        Connection conexion = null;
+        Statement sentencia = null;
 
         System.out.println("ELIMINAR TODOS LOS DATOS DE 'BDINSTITUTO'");
 
@@ -28,15 +33,23 @@ public class ResetDataBase {
             switch (opb) {
                 case 1:
                         try {
+                    conexion = Conexion.conexionMySQL();
+                    sentencia = conexion.createStatement();
+
+                    sentencia.execute("USE BDINSTITUTO");
                     sentencia.execute("DROP DATABASE IF EXISTS BDINSTITUTO");
                     System.out.println("TODOS LOS DATOS DE 'BDINSTITUTO' HAN SIDO BORRADOS");
+
+                    CrearTablas.crearTabla(sentencia);
+                    //CrearTablas.restriccionesDNI(sentencia);
+                    //CrearTablas.restriccionesCodigos(sentencia);
+                    System.out.println("BASE DE DATOS 'BDINSTITUTO' REINICIADA Y LISTA");
+
+                    sentencia.close();
+                    conexion.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                CrearTablas.crearTabla(sentencia);
-                //CrearTablas.restriccionesDNI(sentencia);
-                //CrearTablas.restriccionesCodigos(sentencia);
-                System.out.println("BASE DE DATOS 'BDINSTITUTO' REINICIADA Y LISTA");
                 break;
                 case 2:
                     System.out.println("Volviendo al menú de principal...");

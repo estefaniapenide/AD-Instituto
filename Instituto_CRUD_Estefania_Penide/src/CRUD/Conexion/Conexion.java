@@ -1,19 +1,15 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package CRUD.Conexion;
 
 import controldata.ControlData;
-import static instituto_crud_estefania_penide.ConectarConBD.password;
-import static instituto_crud_estefania_penide.ConectarConBD.puerto;
-import static instituto_crud_estefania_penide.ConectarConBD.sentencia;
-import static instituto_crud_estefania_penide.ConectarConBD.usuario;
 import instituto_crud_estefania_penide.CrearTablas;
+import instituto_crud_estefania_penide.Instituto_Estefania_Penide;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 import java.sql.SQLNonTransientConnectionException;
 
@@ -80,17 +76,19 @@ public class Conexion {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException ex) {
-            System.out.println("No se encontro el driver" + driver);
+            System.out.println("\nNo se encontro el driver" + driver);
             System.exit(1);
         }
         try {
             conexion = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println("No hay ningún Driver registrado que reconozca la URL especificada");
-            System.exit(2);
+            System.out.println("\nNo hay ningún Driver registrado que reconozca la URL especificada.\nEl PUERTO, el USUARIO o la CONTARSEÑA es ERRÓNEO.");
+            Instituto_Estefania_Penide.Principal();
+            //System.exit(2);
         } catch (Exception e) {
             System.out.println("\n\t Se ha producido algún otro error.");
-            System.exit(3);
+            Instituto_Estefania_Penide.Principal();
+            //System.exit(3);
 
         }
 

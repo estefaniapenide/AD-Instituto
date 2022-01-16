@@ -10,6 +10,7 @@ import CRUD.IDao.IAlumnoDao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +22,43 @@ import java.util.List;
 public class AlumnoDaoImpl implements IAlumnoDao {
 
     @Override
+    public boolean existe(Alumno alumno) {
+        boolean existe = false;
+
+        Statement sentencia = null;
+        Connection conexion = null;
+        ResultSet rstAux = null;
+
+        String sql = "SELECT * FROM ALUMNOS";
+
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            rstAux = sentencia.executeQuery(sql);
+            while (rstAux.next()) {
+                if (alumno.getCodigo_alumno().equalsIgnoreCase(rstAux.getString("codigo_alumno"))) {
+                    existe = true;
+                }
+            }
+            sentencia.close();
+            conexion.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error: Clase AlumnoDaoImple, método existe");
+            e.printStackTrace();
+        }
+        return existe;
+    }
+
+    @Override
     public boolean registrar(Alumno alumno) {
         boolean registrar = false;
 
         Statement sentencia = null;
         Connection conexion = null;
 
-        String sql = "INSERT INTO ALUMNOS (idal, codigo_alumno, nombre) VALUES (" + alumno.getIdal() + ",'" + alumno.getCodigo_alumno() + "','" + alumno.getNombre() + "')";
+        String sql = "INSERT INTO ALUMNOS (codigo_alumno, nombre) VALUES ('" + alumno.getCodigo_alumno() + "','" + alumno.getNombre() + "')";
 
         try {
             conexion = Conexion.conexionMySQL();
@@ -37,6 +68,11 @@ public class AlumnoDaoImpl implements IAlumnoDao {
             registrar = true;
             sentencia.close();
             conexion.close();
+
+            System.out.println("\nALUMNO AÑADIDO");
+
+        } catch (SQLIntegrityConstraintViolationException e) {
+            System.out.println("\nERROR. No se puede registar el CÓDIGO " + alumno.getCodigo_alumno() + ".\nEl código que intenta introducir YA EXISTE en la tabla ALUMNOS.");
         } catch (SQLException e) {
             System.out.println("Error: Clase AlumnoDaoImple, método registrar");
             e.printStackTrace();
@@ -136,18 +172,54 @@ public class AlumnoDaoImpl implements IAlumnoDao {
 
         boolean eliminar = false;
 
-        String sql = "DELETE FROM ALUMNOS WHERE idal=" + alumno.getIdal();
+        String sql = "DELETE FROM ALUMNOS WHERE codigo_alumno='" + alumno.getCodigo_alumno() + "'";
         try {
             conexion = Conexion.conexionMySQL();
             sentencia = conexion.createStatement();
             sentencia.execute("USE BDINSTITUTO");
             sentencia.execute(sql);
             eliminar = true;
+
+            System.out.println("\nALUMNO ELIMINADO");
+
         } catch (SQLException e) {
             System.out.println("Error: Clase AlumnoDaoImple, método eliminar");
             e.printStackTrace();
         }
         return eliminar;
+    }
+
+    @Override
+    public void verNotas(Alumno alumno) {
+        
+        Connection conexion = null;
+        Statement sentencia = null;
+        ResultSet rstAux = null;
+
+        String sql = "SELECT CONCAT(AG.codigo_asignatura,' ' ,AG.nombre_ciclo) AS Asignatura ,N.fecha ,N.nota FROM ALUMNOS A JOIN NOTAS N USING(idal) JOIN ASIGNATURAS AG USING(idas) WHERE A.codigo_alumno='" + alumno.getCodigo_alumno() + "';";
+
+        try {
+            conexion = Conexion.conexionMySQL();
+            sentencia = conexion.createStatement();
+            sentencia.execute("USE BDINSTITUTO");
+            rstAux = sentencia.executeQuery(sql);
+            System.out.println("\nNOTAS DEL ALUMNO " + alumno.getNombre().toUpperCase() + ":\n\n"
+                    + "NOTAS:\n"
+                    + "ASIGNATURA\t\tFECHA\t\tNOTA\n"
+                    + "-----------------------------------------------------");
+            while (rstAux.next()) {
+                System.out.print(rstAux.getString("Asignatura") + "\t");
+                System.out.print(rstAux.getDate("N.fecha") + "\t");;
+                System.out.print(rstAux.getFloat("N.nota") + "\n");
+            }
+
+            sentencia.close();
+            rstAux.close();
+            conexion.close();
+        } catch (SQLException e) {
+            System.out.println("Error: Clase NotasDaoImple, método ver(Alumno alumno)");
+            e.printStackTrace();
+        }
     }
 
 }

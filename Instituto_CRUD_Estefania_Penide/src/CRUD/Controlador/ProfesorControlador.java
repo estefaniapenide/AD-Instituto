@@ -17,6 +17,12 @@ public class ProfesorControlador {
     
     public ProfesorControlador() {
     }
+    
+    //llama al DAO para comprobar si existe un profesor a partir de su dni
+    public boolean existe(Profesor profesor) {
+        IProfesorDao dao = new ProfesorDaoImpl();
+        return dao.existe(profesor);
+    }
 
     //llama al DAO para guardar un profesor
     public void registrar(Profesor profesor) {
@@ -37,6 +43,14 @@ public class ProfesorControlador {
     }
     
     //llama al DAO para obtener un profesor a partir de su dni
+    public Profesor obtener(Profesor profesor) {
+        Profesor prof = new Profesor();
+        IProfesorDao dao = new ProfesorDaoImpl();
+        prof = dao.obtener(profesor);
+        return prof;
+    }
+
+    //llama al DAO para ver un profesor a partir de su dni
     public void ver(Profesor profesor) {
         Profesor prof = new Profesor();
         IProfesorDao dao = new ProfesorDaoImpl();
@@ -44,12 +58,17 @@ public class ProfesorControlador {
         vista.verProfesor(prof);
     }
 
-    //llama al DAO para obtener todos los profesores y luego los muestra en la vista
+    //llama al DAO para ver todos los profesores y luego los muestra en la vista
     public void verProfesores() {
         List<Profesor> profesores = new ArrayList<Profesor>();
         IProfesorDao dao = new ProfesorDaoImpl();
         profesores = dao.obtenerTodos();
         vista.verProfesores(profesores);
+    }
+    
+        public void verAsignaturas(Profesor profesor) {
+        IProfesorDao dao = new ProfesorDaoImpl();
+        dao.verAsignaturas(profesor);
     }
     
 }

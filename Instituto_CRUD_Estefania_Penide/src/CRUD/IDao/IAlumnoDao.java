@@ -12,6 +12,8 @@ import java.util.List;
  * @author Estefania
  */
 public interface IAlumnoDao {
+    
+    public boolean existe(Alumno alumno);
 
     public boolean registrar(Alumno alumno);
 
@@ -22,5 +24,7 @@ public interface IAlumnoDao {
     public boolean actualizar(Alumno alumno);
 
     public boolean eliminar(Alumno alumno);
+    
+    public void verNotas(Alumno alumno);
 
 }

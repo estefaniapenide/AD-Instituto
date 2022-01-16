@@ -12,7 +12,9 @@ import java.util.List;
  * @author Estefania
  */
 public interface IAsignaturaDao {
-
+    
+    public boolean existe(Asignatura asignatua);
+    
     public boolean registrar(Asignatura asignatura);
 
     public List<Asignatura> obtenerTodos();
@@ -22,5 +24,7 @@ public interface IAsignaturaDao {
     public boolean actualizar(Asignatura asignatura);
 
     public boolean eliminar(Asignatura asignatura);
+    
+    public void verProfesor(Asignatura asignatura);
 
 }

@@ -8,20 +8,25 @@ package CRUD.Modelo;
  *
  * @author a20estefaniapc
  */
-public class AlumnoAsignaturaProfesor {
+public class Matricula {
 
     private Alumno alumno;
     private Asignatura asignatura;
     private Profesor profesor;
 
-    public AlumnoAsignaturaProfesor() {
+    public Matricula() {
 
     }
 
-    public AlumnoAsignaturaProfesor(Alumno alumno, Asignatura asignatura, Profesor profesor) {
-        this.alumno=alumno;
-        this.asignatura=asignatura;
-        this.profesor=profesor;
+    public Matricula(Alumno alumno, Asignatura asignatura) {
+        this.alumno = alumno;
+        this.asignatura = asignatura;
+    }
+
+    public Matricula(Alumno alumno, Asignatura asignatura, Profesor profesor) {
+        this.alumno = alumno;
+        this.asignatura = asignatura;
+        this.profesor = profesor;
     }
 
     /**
@@ -65,7 +70,14 @@ public class AlumnoAsignaturaProfesor {
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }
-
-
+    
+    @Override
+    public String toString() {
+        String matricula
+                = "\tAlumno: " + alumno.getCodigo_alumno()+" "+alumno.getNombre() + "\n"
+                + "\tAsignatura: " + asignatura.getCodigo_asignatura()+" "+asignatura.getNombre_ciclo() + "\n"
+                + "\tProfesor: " + profesor.getDni()+", "+profesor.getNombre();
+        return matricula;
+    }
 
 }

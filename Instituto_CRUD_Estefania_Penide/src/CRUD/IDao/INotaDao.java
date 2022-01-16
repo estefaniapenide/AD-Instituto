@@ -7,7 +7,7 @@ package CRUD.IDao;
 import CRUD.Modelo.Alumno;
 import CRUD.Modelo.Asignatura;
 import CRUD.Modelo.Nota;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -16,17 +16,24 @@ import java.util.List;
  */
 public interface INotaDao {
 
+    public boolean existe(Nota nota);
+    
+    public boolean existe(Alumno alumno, Asignatura asignatura);
+
     public boolean registrar(Nota nota);
 
     public List<Nota> obtenerTodos();
-    
-//    public Nota obtener(Alumno alumno);
+
+    public List<Nota> obtener(Alumno alumno);//Hará falta para el apartado modifiaciones
 //    
-//    public Nota obtener(Asignatura asignatura);
+//    public List<Nota> obtener(Asignatura asignatura);
 //    
-//    public Nota obtener(Date fecha);
+//    public List<Nota> obtener(Date fecha);
 //    
-//    public Nota obtener(Alumno alumno, Asignatura asignatura, Date fecha);
+
+    public Nota obtener(Alumno alumno, Asignatura asignatura, Date fecha);
+
+    public Nota obtener(Nota nota);
 
     public boolean actualizar(Nota nota);
 

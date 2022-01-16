@@ -14,11 +14,18 @@ public class Nota {
 
     private Alumno alumno;
     private Asignatura asignatura;
+    //date - milliseconds since January 1, 1970, 00:00:00 GMT
     private Date fecha;
     private float nota;
 
     public Nota() {
 
+    }
+
+    public Nota(Alumno alumno, Asignatura asignatura, Date fecha) {
+        this.alumno = alumno;
+        this.asignatura = asignatura;
+        this.fecha = fecha;
     }
 
     public Nota(Alumno alumno, Asignatura asignatura, Date fecha, float nota) {
@@ -82,6 +89,16 @@ public class Nota {
      */
     public void setNota(float nota) {
         this.nota = nota;
+    }
+
+    @Override
+    public String toString() {
+        String nota
+                = "\tAlumno: " + alumno.getCodigo_alumno()+" "+alumno.getNombre() + "\n"
+                + "\tAsignatura: " + asignatura.getCodigo_asignatura()+" "+asignatura.getNombre_ciclo() + "\n"
+                + "\tFecha: " + fecha + "\n"
+                + "\tNota: " + this.nota;
+        return nota;
     }
 
 }

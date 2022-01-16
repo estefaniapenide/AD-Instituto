@@ -14,8 +14,6 @@ public class Menus {
     
 
     public static void menuPrincipal() {
-        
-        ConectarConBD.indicadorConexion();
 
         System.out.println("---------------------------------------------------------------------------\n"
                 + "\t\t\tMENÚ PRINCIPAL ("+Conexion.indicadorConexion()+")\n"

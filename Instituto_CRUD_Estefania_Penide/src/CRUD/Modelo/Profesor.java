@@ -21,6 +21,10 @@ public class Profesor {
 
     }
 
+    public Profesor(String dni) {
+        this.dni = dni;
+    }
+
     public Profesor(String dni, String nombre, String titulacion) {
         this.dni = dni;
         this.nombre = nombre;
@@ -88,7 +92,7 @@ public class Profesor {
                 = "\tDNI: " + dni + "\n"
                 + "\tNombre: " + nombre + "\n"
                 + "\tTitulación: " + titulacion;
-        
+
         return profesor;
     }
 

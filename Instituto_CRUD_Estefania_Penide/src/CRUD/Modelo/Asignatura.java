@@ -22,6 +22,15 @@ public class Asignatura {
 
     }
 
+    public Asignatura(String codigo_asignatura) {
+        this.codigo_asignatura = codigo_asignatura;
+    }
+
+    public Asignatura(String codigo_asignatura, String nombre_ciclo) {
+        this.codigo_asignatura = codigo_asignatura;
+        this.nombre_ciclo = nombre_ciclo;
+    }
+
     public Asignatura(int idas, String codigo_asignatura, String nombre_ciclo) {
         this.idas = idas;
         this.codigo_asignatura = codigo_asignatura;

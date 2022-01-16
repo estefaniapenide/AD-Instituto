@@ -4,21 +4,21 @@
  */
 package CRUD.Vista;
 
-import CRUD.Modelo.AlumnoAsignaturaProfesor;
+import CRUD.Modelo.Matricula;
 import java.util.List;
 
 /**
  *
  * @author a20estefaniapc
  */
-public class AlumnoAsignaturaProfesorVista {
+public class MatriculaVista {
     
-    public void verAlumnoAsignaturaProfesor(AlumnoAsignaturaProfesor aap) {
+    public void verAlumnoAsignaturaProfesor(Matricula aap) {
         System.out.println("Datos del ALUMNO + ASIGNATURA + PROFESOR:\n" + aap);
     }
 
-    public void verTodosAlumnoAsignaturaProfesor(List<AlumnoAsignaturaProfesor> aaps) {
-        for (AlumnoAsignaturaProfesor aap : aaps) {
+    public void verTodosAlumnoAsignaturaProfesor(List<Matricula> aaps) {
+        for (Matricula aap : aaps) {
             System.out.println("Datos del ALUMNO + ASIGNATURA + PROFESOR:\n" + aap);
         }
     }
