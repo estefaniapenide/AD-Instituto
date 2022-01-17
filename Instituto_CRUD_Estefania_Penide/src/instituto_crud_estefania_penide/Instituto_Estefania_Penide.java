@@ -84,6 +84,7 @@ public class Instituto_Estefania_Penide {
         } while (op != 0);
         
         input.close();
+        System.exit(0);//Necesario porque llamé a principal() en un catch
     }
 
     public static boolean baseDatosConectada() {
