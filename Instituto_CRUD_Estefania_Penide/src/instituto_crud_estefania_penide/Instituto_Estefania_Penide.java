@@ -37,6 +37,7 @@ public class Instituto_Estefania_Penide {
             switch (op) {
                 case 1:
                     Conexion.conectarseInstitutoBD(input);
+                    
                     break;
                 case 2:
                     if (baseDatosConectada()) {
@@ -84,6 +85,7 @@ public class Instituto_Estefania_Penide {
         } while (op != 0);
         
         input.close();
+        
         System.exit(0);//Necesario porque llamé a principal() en un catch
     }
 

@@ -2,17 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/instituto_crud_estefania_penide/Instituto_Estefania_Penide.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/DaoImpl/AlumnoDaoImpl.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/instituto_crud_estefania_penide/Altas.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/DaoImpl/AsignaturaDaoImpl.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/instituto_crud_estefania_penide/Menus.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/Controlador/ProfesorControlador.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/IDao/IProfesorDao.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/Modelo/Matricula.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/DaoImpl/ProfesorDaoImpl.java</file>
-            <file>file:/F:/asignaturas_segundo/acceso_a_datos/tema2_conectores_BD_relacionales/AD-Instituto/Instituto_CRUD_Estefania_Penide/src/CRUD/Conexion/Conexion.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
